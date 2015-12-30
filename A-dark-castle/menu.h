@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
-#include "event.h"
 using namespace sf;
 
 struct StructMenu
@@ -27,7 +26,7 @@ struct StructMenu
 
 
 void InitMenu(StructMenu& menu, Vector2f view_ñentre);
-void UpdateMenu(StructMenu& menu, StructEvent key_event);
+void UpdateMenu(StructMenu& menu);
 void DrawMenu(StructMenu menu, RenderWindow& window);
 
 

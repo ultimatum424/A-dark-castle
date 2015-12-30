@@ -8,29 +8,51 @@
 #include "menu.h"
 #include "view.h"
 #include "const.h"
-#include "event.h"
+#include "heroes.h"
+//#include "event.h"
 
 
-
+struct StructEvent
+{
+	int key_up;
+	int key_down;
+}event_key;
 using namespace sf;
+void CheckEvent(StructEvent& event_key, RenderWindow& window)
+{
+	Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+			window.close();
+	}
+}
 void DrawGame(RenderWindow& window, StructMenu menu)
 {
 	DrawMenu(menu, window);
 }
 void Run_Game(RenderWindow& window)
 {
-
+	//Event event;
 	StructView view;
 	StructMenu menu;
-	StructEvent key_event;
+	//StructEvent key_event;
+
+	StructAllEnemy all_enemy;
+	StructLocalEnemy local_enemy[5];
+	StructAllHeroes all_heroes;
+	InitAllEnemy(all_enemy);
+	InitHeroes(all_heroes);
 	SetView(view);
 	InitMenu(menu, view.view_ñentre);
+	InitLocalEnemy(all_enemy, local_enemy);
 	
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::White);
+		CheckEvent(event_key, window);
 		ViewUpdate(view);
-		UpdateMenu(menu, key_event);
+		UpdateMenu(menu);
 		DrawGame(window, menu);
 		window.display();
 	}

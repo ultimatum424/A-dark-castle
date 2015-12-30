@@ -1,10 +1,10 @@
 #pragma once
 #include "menu.h"
+//#include "event.h"
 void LoadSprite(StructMenu menu)
 {
 
 }
-
 
 void InitMenu(StructMenu& menu, Vector2f view_ñentre)
 {
@@ -33,19 +33,22 @@ void InitMenu(StructMenu& menu, Vector2f view_ñentre)
 	menu.text_castle.setPosition(view_ñentre.x + 300, view_ñentre.y - 250);
 
 }
-void UpdateMenu(StructMenu& menu, StructEvent key_event)
+void UpdateMenu(StructMenu& menu)
 {
-	if ((key_event.key_up == 1) && (menu.flag.menu_item < 2))
+	menu.flag.menu_item = 2;
+	/*if ((key_event.key_up == 1) && (menu.flag.menu_item < 2))
 		menu.flag.menu_item++;
 	else if ((key_event.key_down == 1) && (menu.flag.menu_item > 0))
-		menu.flag.menu_item--;
+		menu.flag.menu_item--;*/
 	if (menu.flag.menu_item == 2)
 		menu.text_castle.setColor(Color::Red);
 	else
 		menu.text_castle.setColor(Color::White);
 }
+
 void DrawMenu(StructMenu menu, RenderWindow& window)
 {
+	menu.flag.level = 0;
 	if (menu.flag.level == 0)
 		window.draw(menu.city.sprite);
 	else if (menu.flag.level == 1)
