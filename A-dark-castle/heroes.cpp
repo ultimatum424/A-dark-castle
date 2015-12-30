@@ -85,7 +85,6 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 	Texture texture;
 	image.loadFromFile(file[0]);
 	texture.loadFromImage(image);
-
 	hero.battle.stay.setTexture(texture);
 	hero.battle.stay.setTextureRect(IntRect(0, 1282, 180, 430));
 	hero.battle.attack1.setTexture(texture);

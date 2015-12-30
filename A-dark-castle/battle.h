@@ -10,3 +10,4 @@ struct StructBattleImage
 
 void InitBattleImages(StructBattleImage& battle_image);
 void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre);
+void DrawBattleImages(StructBattleImage battle_image, RenderWindow& window);

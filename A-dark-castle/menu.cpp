@@ -35,7 +35,7 @@ void InitMenu(StructMenu& menu, Vector2f view_ñentre)
 }
 void UpdateMenu(StructMenu& menu)
 {
-	menu.flag.menu_item = 2;
+	menu.flag.menu_item = 1;
 	/*if ((key_event.key_up == 1) && (menu.flag.menu_item < 2))
 		menu.flag.menu_item++;
 	else if ((key_event.key_down == 1) && (menu.flag.menu_item > 0))

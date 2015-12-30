@@ -1,4 +1,4 @@
-/*
+#include <SFML\Graphics.hpp>
 #pragma once
 
 struct StructEvent
@@ -7,6 +7,6 @@ struct StructEvent
 	int key_down;
 };
 
-void CheckEvent(RenderWindow& window, StructEvent& key_event, Event event);
-*/
+void CheckEvent(RenderWindow& window, StructEvent& key_event);
+
 

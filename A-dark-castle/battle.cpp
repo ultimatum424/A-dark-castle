@@ -18,3 +18,8 @@ void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre)
 	battle_image.background.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
 	battle_image.blackout.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
 }
+
+void DrawBattleImages(StructBattleImage battle_image, RenderWindow& window)
+{
+	window.draw(battle_image.background);
+}

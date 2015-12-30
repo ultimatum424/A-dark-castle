@@ -10,14 +10,10 @@
 #include "const.h"
 #include "heroes.h"
 #include "battle.h"
-//#include "event.h"
+#include "event.h"
 
 
-struct StructEvent
-{
-	int key_up;
-	int key_down;
-}event_key;
+
 using namespace sf;
 
 void Init(StructAllHeroes& all_heroes, StructAllEnemy& all_enemy, StructMenu& menu, 
@@ -30,15 +26,6 @@ void Init(StructAllHeroes& all_heroes, StructAllEnemy& all_enemy, StructMenu& me
 	InitBattleImages(battle_image);
 	InitLocalEnemy(all_enemy, local_enemy);
 }
-void CheckEvent(StructEvent& event_key, RenderWindow& window)
-{
-	Event event;
-	while (window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window.close();
-	}
-}
 void DrawGame(RenderWindow& window, StructMenu menu)
 {
 	DrawMenu(menu, window);
@@ -49,8 +36,8 @@ void Run_Game(RenderWindow& window)
 	//Event event;
 	StructView view;
 	StructMenu menu;
-	//StructEvent key_event;
-
+	
+	StructEvent key_event;
 	StructAllEnemy all_enemy;
 	StructLocalEnemy local_enemy[5];
 	StructAllHeroes all_heroes;
@@ -67,7 +54,7 @@ void Run_Game(RenderWindow& window)
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::White);
-		CheckEvent(event_key, window);
+		CheckEvent(window, key_event);
 		ViewUpdate(view);
 		UpdateMenu(menu);
 		DrawGame(window, menu);
