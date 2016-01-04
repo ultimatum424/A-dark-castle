@@ -6,7 +6,10 @@ using namespace std;
 
 struct StructEnemy
 {
+	Image image;
+	Texture texture;
 	RectangleShape sq;
+	Sprite battle_sprite;
 	Sprite stay;
 	Sprite attack;
 	Sprite get_damage;
@@ -20,8 +23,9 @@ struct StructLocalEnemy
 struct StructAllEnemy
 {
 	StructEnemy skeleton;
-	StructEnemy ghost;
-	StructEnemy alien;
+	StructEnemy bandit;
+	StructEnemy ghoul;
+	StructEnemy necromant;
 };
 
 struct Structheroes
@@ -36,6 +40,8 @@ struct Structheroes
 	} stats;
 	struct StructBattle
 	{
+		Image image;
+		Texture texture;
 		Vector2f heroesPosition;
 		struct StructAction
 		{
@@ -51,7 +57,6 @@ struct Structheroes
 		Sprite attack4;
 		Sprite get_damage;
 		Sprite die;
-
 		Sprite batle_sprite;
 		Sprite batle_icon;
 		Sprite image_ability;
@@ -79,9 +84,38 @@ struct StructAllHeroes
 	Structheroes mage;
 };
 
-
-
-
+struct AttacksCruasder
+{
+	void Attack1(Structheroes& cruasder, StructEnemy& victim)
+	{
+		if (victim.hp > 15) victim.hp -= 15;
+		else victim.hp = 0;
+	}
+	void Attack2(Structheroes& cruasder)
+	{
+		cruasder.stats.def = cruasder.stats.def + 0.5;
+	}
+	void Attack3(Structheroes& cruasder)
+	{
+		if (cruasder.stats.hp <= (cruasder.stats.max_hp - 10)) cruasder.stats.hp += 10;
+		else (cruasder.stats.hp = cruasder.stats.max_hp);
+	}
+	void Attack4(Structheroes& cruasder, StructEnemy& victim)
+	{
+		if (victim.hp >= 20)
+		{
+			victim.hp -= 20;
+			if (cruasder.stats.def > 0.2) cruasder.stats.def -= 0.2;
+			else cruasder.stats.def = 0.1;
+		}
+		else
+		{
+			victim.hp = 0;
+			if (cruasder.stats.def > 0.2) cruasder.stats.def -= 0.2;
+			else cruasder.stats.def = 0.1;
+		}
+	}
+};
 struct AttacksRogue
 {
 	void Attack1(Structheroes& rogue, StructEnemy& victim)
@@ -119,38 +153,6 @@ struct AttacksRogue
 			if (rogue.stats.damage > 0.2) rogue.stats.damage -= 0.2;
 			else rogue.stats.damage = 0.1;
 		};
-	}
-};
-struct AttacksCruasder
-{
-	void Attack1(Structheroes& cruasder, StructEnemy& victim)
-	{
-		if (victim.hp > 15) victim.hp -= 15;
-		else victim.hp = 0;
-	}
-	void Attack2(Structheroes& cruasder)
-	{
-		cruasder.stats.def = cruasder.stats.def + 0.5;
-	}
-	void Attack3(Structheroes& cruasder)
-	{
-		if (cruasder.stats.hp <= (cruasder.stats.max_hp - 10)) cruasder.stats.hp += 10;
-		else (cruasder.stats.hp = cruasder.stats.max_hp);
-	}
-	void Attack4(Structheroes& cruasder, StructEnemy& victim)
-	{
-		if (victim.hp >= 20)
-		{
-			victim.hp -= 20;
-			if (cruasder.stats.def > 0.2) cruasder.stats.def -= 0.2;
-			else cruasder.stats.def = 0.1;
-		}
-		else
-		{
-			victim.hp = 0;
-			if (cruasder.stats.def > 0.2) cruasder.stats.def -= 0.2;
-			else cruasder.stats.def = 0.1;
-		}
 	}
 };
 struct AttacksWizard
@@ -216,6 +218,19 @@ void InitHeroRogue(Structheroes& hero, vector<string> file);
 void InitHeroWizard(Structheroes& hero, vector<string> file);
 void InitHeroMage(Structheroes& hero, vector<string> file);
 void InitHeroes(StructAllHeroes& all_heroes);
+
 void InitSkeleton(StructEnemy& enemy, string file);
+void InitBandit(StructEnemy& enemy, string file);
+void InitGhoul(StructEnemy& enemy, string file);
+void InitNecromant(StructEnemy& enemy, string file);
 void InitAllEnemy(StructAllEnemy& all_enemy);
 void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[5]);
+
+
+bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
+bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
+bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
+bool AttackModeMage(StructAllHeroes& all_heroes, int& key_attack);
+void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[5], Vector2f view_ñentre);
+void DrawHeroes(StructAllHeroes all_heroes, RenderWindow& window);
+void DrawEnemy(StructEnemy enemy[3], RenderWindow& window);
