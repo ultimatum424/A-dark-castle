@@ -52,7 +52,7 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 
 	for (int i = 0; i < 3; i++)
 	{
-		//enemy[i].battle_sprite = enemy[i].stay;
+		enemy[i].battle_sprite = enemy[i].stay;
 		enemy[i].battle_sprite = {};
 		enemy[i].stay.setPosition(view_ñentre.x + 200 + (200 * i), view_ñentre.y + 130);
 		enemy[i].battle_sprite.setPosition(view_ñentre.x + 200 + (200 * i), view_ñentre.y + 130);
@@ -83,24 +83,31 @@ void BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_
 	bool flaq = false;
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
 	UpdeatBattleImages(battle_param.battle_image, view_ñentre);
-	std::cout << battle_param.battle_time << "\n";
-	if (battle_param.battle_time > 2)
-		UpdeatBattle(all_heroes, enemy, view_ñentre);
+	std::cout << battle_param.jump_step << "\n";
 	if (battle_param.jump_step == 0)
 	{
 		battle_param.clock_battle.restart();
-		battle_param.jump_step = 2;
+		battle_param.jump_step = 1;
 	}
-	if (battle_param.jump_step == 1)
-		flaq = AttackModeCrusader(all_heroes, enemy, key_attack);
-	if (battle_param.jump_step == 2)
-		flaq = AttackModeRogue(all_heroes, enemy, key_attack);
-	if (battle_param.jump_step == 3)
-		flaq = AttackModeWizard(all_heroes, enemy, key_attack);
-	if (battle_param.jump_step == 4)
-		flaq = AttackModeMage(all_heroes, key_attack);
-	if (flaq)
-		battle_param.clock_battle.restart();
+	if (battle_param.battle_time > 2)
+	{
+		UpdeatBattle(all_heroes, enemy, view_ñentre);
+		if (battle_param.jump_step == 1)
+			flaq = AttackModeCrusader(all_heroes, enemy, key_attack);
+		if (battle_param.jump_step == 2)
+			flaq = AttackModeRogue(all_heroes, enemy, key_attack);
+		if (battle_param.jump_step == 3)
+			flaq = AttackModeWizard(all_heroes, enemy, key_attack);
+		if (battle_param.jump_step == 4)
+			flaq = AttackModeMage(all_heroes, key_attack);
+		if (flaq)
+		{
+			battle_param.clock_battle.restart();
+			battle_param.jump_step++;
+		}
+		if (battle_param.jump_step == 5)
+			battle_param.jump_step = 0;
+	}
 	DrawBattleImages(battle_param, all_heroes, enemy, window);
 
 

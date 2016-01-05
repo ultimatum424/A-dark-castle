@@ -27,8 +27,8 @@ struct StructMenu
 };
 
 
-void InitMenu(StructMenu& menu, Vector2f view_ñentre);
-void UpdateMenu(StructMenu& menu, StructEvent key_event, int& stage_game);
+void InitMenu(StructMenu& menu);
+void UpdateMenu(StructMenu& menu, StructEvent key_event, int& stage_game, Vector2f view_ñentre);
 void DrawMenu(StructMenu menu, RenderWindow& window);
 
 

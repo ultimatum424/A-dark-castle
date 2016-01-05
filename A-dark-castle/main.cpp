@@ -11,7 +11,7 @@
 #include "heroes.h"
 #include "battle.h"
 #include "event.h"
-
+#include "map.h"
 
 
 using namespace sf;
@@ -21,7 +21,7 @@ void Init(StructAllHeroes& all_heroes, StructAllEnemy& all_enemy, StructMenu& me
 	int& stage_game)
 {
 	SetView(view);
-	InitMenu(menu, view.view_ñentre);
+	InitMenu(menu);
 	InitBattleParam(battle_param);
 	InitHeroes(all_heroes);
 	InitAllEnemy(all_enemy);
@@ -45,33 +45,40 @@ void Run_Game(RenderWindow& window)
 	//Event event;
 	StructView view;
 	StructMenu menu;
-
+	StructMap map;
 	StructEvent key_event;
 	StructAllEnemy all_enemy;
 	StructLocalEnemy local_enemy[5];
 	StructAllHeroes all_heroes;
 	StructBattleParam battle_param;
-
+	StructTime time_animation;
 	Init(all_heroes, all_enemy, menu, battle_param, view, local_enemy, stage_game);
-	
-	
-
+	InitMap(map);
 	SetHerosAndEnemy(all_heroes, local_enemy, view.view_ñentre);
 	while (window.isOpen())
 	{
+		time_animation.clock.restart();
+		time_animation.time = time_animation.clock.getElapsedTime().asMicroseconds();
+		time_animation.time = time_animation.time / 1000;
 		//std::cout << stage_game << "\n";
 		window.clear(sf::Color::White);
 		//SetHeroes(all_heroes);
 		CheckEvent(window, key_event, stage_game);
-		ViewUpdate(view);
+		window.setView(view.camera);
+		ViewUpdate(view, time_animation.time, stage_game);
 		if (stage_game == 0)
 		{
-			UpdateMenu(menu, key_event, stage_game);
+			UpdateMenu(menu, key_event, stage_game, view.view_ñentre);
 			DrawMenu(menu, window);
 		}
 		if (stage_game == 1)
 		{
-			
+			ExplorationMod(map, key_event);
+			DrawMap(map, window);
+			DrawRoom(map, view.view_ñentre, window);
+		}
+		if (stage_game == 2)
+		{
 			BattleMod(all_heroes, local_enemy[0].enemy, view.view_ñentre, battle_param, key_event.key_attack, window);
 		}		
 		//std::cout << stage_game;

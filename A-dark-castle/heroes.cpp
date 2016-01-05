@@ -160,6 +160,7 @@ void InitSkeleton(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 282);
 	enemy.get_damage.setOrigin(0, 287);
 	enemy.attack.setOrigin(0, 289);
+	enemy.hp = 50;
 }
 void InitBandit(StructEnemy& enemy, string file)
 {
@@ -176,6 +177,7 @@ void InitBandit(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 385);
 	enemy.get_damage.setOrigin(0, 254);
 	enemy.attack.setOrigin(0, 331);
+	enemy.hp = 50;
 }
 void InitGhoul(StructEnemy& enemy, string file)
 {
@@ -192,6 +194,7 @@ void InitGhoul(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 392);
 	enemy.get_damage.setOrigin(0, 397);
 	enemy.attack.setOrigin(0, 372);
+	enemy.hp = 50;
 }
 void InitNecromant(StructEnemy& enemy, string file)
 {
@@ -208,6 +211,7 @@ void InitNecromant(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 434);
 	enemy.get_damage.setOrigin(0, 309);
 	enemy.attack.setOrigin(0, 335);
+	enemy.hp = 50;
 }
 void InitAllEnemy(StructAllEnemy& all_enemy)
 {
@@ -236,20 +240,54 @@ void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[5])
 }
 void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[5], Vector2f view_ñentre)
 {
+	all_heroes.cruasder.battle.stay.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.stay.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.stay.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.stay.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	all_heroes.cruasder.battle.attack1.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.attack1.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.attack1.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.attack1.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	all_heroes.cruasder.battle.attack2.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.attack2.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.attack2.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.attack2.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	all_heroes.cruasder.battle.attack3.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.attack3.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.attack3.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.attack3.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	all_heroes.cruasder.battle.attack4.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.attack4.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.attack4.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.attack4.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	all_heroes.cruasder.battle.get_damage.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	all_heroes.rogue.battle.get_damage.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	all_heroes.wizard.battle.get_damage.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	all_heroes.mage.battle.get_damage.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
 	all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.stay;
 	all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.stay;
 	all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.stay;
 	all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.stay;
-	all_heroes.cruasder.battle.batle_sprite.setPosition(view_ñentre.x, view_ñentre.y + 130);
-	all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
-	all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
-	all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+
+	//all_heroes.cruasder.battle.batle_sprite.setPosition(view_ñentre.x, view_ñentre.y + 130);
+	//all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
+	//all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
+	//all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
+			local_enemy[i].enemy[j].stay.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
+			local_enemy[i].enemy[j].attack.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
+			local_enemy[i].enemy[j].get_damage.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
 			local_enemy[i].enemy[j].battle_sprite = local_enemy[i].enemy[j].stay;
-			local_enemy[i].enemy[j].battle_sprite.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
+			//local_enemy[i].enemy[j].battle_sprite.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
 		}
 	}
 }
