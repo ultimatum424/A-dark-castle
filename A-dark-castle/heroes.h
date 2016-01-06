@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <vector>
+#include "map.h"
 using namespace sf;
 using namespace std;
 
@@ -224,13 +225,13 @@ void InitBandit(StructEnemy& enemy, string file);
 void InitGhoul(StructEnemy& enemy, string file);
 void InitNecromant(StructEnemy& enemy, string file);
 void InitAllEnemy(StructAllEnemy& all_enemy);
-void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[5]);
+void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[ENEMY_COUNT]);
 
 
 bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
 bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
 bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
 bool AttackModeMage(StructAllHeroes& all_heroes, int& key_attack);
-void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[5], Vector2f view_ñentre);
+void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[ENEMY_COUNT], Vector2f view_ñentre);
 void DrawHeroes(StructAllHeroes all_heroes, RenderWindow& window);
 void DrawEnemy(StructEnemy enemy[3], RenderWindow& window);

@@ -1,5 +1,6 @@
 #include "map.h"
 #include "event.h"
+#include "inventory.h"
 #include <ctime>
 #include <iostream>
 
@@ -104,11 +105,13 @@ void InitImageMap(StructMap& map)
 	map.room.size_x = 720;
 	map.room.size_y = 720;
 
-	map.image_inventory.image.loadFromFile("../images/exploration/inventory.png");
-	map.image_inventory.texture.loadFromImage(map.image_inventory.image);
-	map.image_inventory.sprite.setTexture(map.image_inventory.texture);
-	map.image_inventory.size_x = 72;
-	map.image_inventory.size_y = 144;
+	map.background.image.loadFromFile("../images/exploration/background.png");
+	map.background.texture.loadFromImage(map.background.image);
+	map.background.sprite.setTexture(map.background.texture);
+
+	map.ramka.image.loadFromFile("../images/exploration/ramka.png");
+	map.ramka.texture.loadFromImage(map.ramka.image);
+	map.ramka.sprite.setTexture(map.ramka.texture);
 }
 void InitMap(StructMap& map)
 {
@@ -117,7 +120,7 @@ void InitMap(StructMap& map)
 	InitMapVisible(map.tile_map_visible);
 	InitImageMap(map);
 }
-void DrawMap(StructMap& map, RenderWindow& window)
+void DrawMiniMap(StructMap& map, RenderWindow& window)
 {
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
@@ -158,6 +161,15 @@ void DrawRoom(StructMap& map, Vector2f view_ñentre, RenderWindow& window)
 	map.room.sprite.setScale(0.7, 0.7);
 	map.room.sprite.setPosition(view_ñentre.x + 196, view_ñentre.y - 400);
 	window.draw(map.room.sprite);
+	map.ramka.sprite.setPosition(view_ñentre.x + 196, view_ñentre.y - 400);
+	window.draw(map.ramka.sprite);
+}
+void DrawMap(StructMap& map, Vector2f view_ñentre, RenderWindow& window)
+{
+	map.background.sprite.setPosition(view_ñentre.x - 700, view_ñentre.y - 400);
+	window.draw(map.background.sprite);
+	DrawMiniMap(map, window);
+	DrawRoom(map, view_ñentre, window);
 }
 void OpeningMap(StructMap& map)
 {
@@ -174,22 +186,23 @@ void OpeningMap(StructMap& map)
 	if (((map.hero_pos.x + 1) < MAP_SIZE) && ((map.hero_pos.y + 1) < MAP_SIZE))
 		map.tile_map_visible[map.hero_pos.x + 1][map.hero_pos.y + 1] = map.tile_map[map.hero_pos.x + 1][map.hero_pos.y + 1];
 }
-void ExplorationMod(StructMap& map, StructEvent key_event)
+int MoveHero(StructMap& map, StructEvent key_event)
 {
-	OpeningMap(map);
 	if ((map.hero_pos.y + 1 < MAP_SIZE) && (key_event.key_down))
 	{
 		map.previous_hero_pos = map.hero_pos;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = map.tile_map[map.hero_pos.x][map.hero_pos.y];
 		map.hero_pos.y++;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = 5;
+		return 1;
 	}
-	else if ((map.hero_pos.x +1 < MAP_SIZE) && (key_event.key_right))
+	else if ((map.hero_pos.x + 1 < MAP_SIZE) && (key_event.key_right))
 	{
 		map.previous_hero_pos = map.hero_pos;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = map.tile_map[map.hero_pos.x][map.hero_pos.y];
 		map.hero_pos.x++;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = 5;
+		return 1;
 	}
 	else if ((map.hero_pos.y - 1 >= 0) && (key_event.key_up))
 	{
@@ -197,6 +210,7 @@ void ExplorationMod(StructMap& map, StructEvent key_event)
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = map.tile_map[map.hero_pos.x][map.hero_pos.y];
 		map.hero_pos.y--;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = 5;
+		return 1;
 	}
 	else if ((map.hero_pos.x - 1 >= 0) && (key_event.key_left))
 	{
@@ -204,6 +218,25 @@ void ExplorationMod(StructMap& map, StructEvent key_event)
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = map.tile_map[map.hero_pos.x][map.hero_pos.y];
 		map.hero_pos.x--;
 		map.tile_map_visible[map.hero_pos.x][map.hero_pos.y] = 5;
+		return 1;
 	}
-	std::cout << map.hero_pos.y << "\n";
+	return 0;
+}
+void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inventory, int& stage_game)
+{
+	OpeningMap(map);
+	if (inventory.food.quantity)
+		inventory.food.quantity -= MoveHero(map, key_event);
+	if (key_event.key_escape)
+		stage_game = 0;
+	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
+		stage_game = 2;
+	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 3))
+		stage_game = 3;
+	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 2))
+	{
+		inventory.relics.quantity += 5;
+		inventory.food.quantity -= 2;
+		map.tile_map[map.hero_pos.x][map.hero_pos.y] = 0;
+	}
 }

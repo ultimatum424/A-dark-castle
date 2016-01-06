@@ -31,13 +31,13 @@ void InitMenu(StructMenu& menu)
 	menu.level.setFont(menu.font);
 	menu.level.setCharacterSize(40);
 	menu.level.setColor(Color::White);
-	menu.level.setString(L"Âûáîğ óğîâíÿ");
+	menu.level.setString(L"Íàïğàâèòüñÿ â çàìîê");
 	//menu.level.setPosition(view_ñentre.x + 300, view_ñentre.y - 250);
 	
 	menu.shop.setFont(menu.font);
 	menu.shop.setCharacterSize(40);
 	menu.shop.setColor(Color::White);
-	menu.shop.setString(L"Òàâåğíà");
+	menu.shop.setString(L"Âûéòè íà äîğîãó ê çàìêó");
 	//menu.shop.setPosition(view_ñentre.x + 0, view_ñentre.y - 0);
 
 	menu.exit.setFont(menu.font);
@@ -49,9 +49,9 @@ void InitMenu(StructMenu& menu)
 }
 void UpdateMenu(StructMenu& menu, StructEvent key_event, int& stage_game, Vector2f view_ñentre)
 {
-	menu.background.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
-	menu.city.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
-	menu.castle.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
+	menu.background.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
+	menu.city.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
+	menu.castle.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
 	menu.level.setPosition(view_ñentre.x + 300, view_ñentre.y - 250);
 	menu.shop.setPosition(view_ñentre.x + 0, view_ñentre.y - 0);
 	menu.exit.setPosition(view_ñentre.x, view_ñentre.y + 250);

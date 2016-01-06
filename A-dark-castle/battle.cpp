@@ -28,9 +28,9 @@ void InitBattleParam(StructBattleParam& battle_param)
 }
 void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre)
 {
-	battle_image.background.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
-	battle_image.blackout.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
-	battle_image.eclipse.sprite.setPosition((view_ñentre.x - view_ñentre.x), (view_ñentre.y - view_ñentre.y));
+	battle_image.background.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
+	battle_image.blackout.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
+	battle_image.eclipse.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
 }
 
 void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre)
@@ -40,22 +40,22 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 	all_heroes.wizard.battle.batle_sprite = {};
 	all_heroes.mage.battle.batle_sprite = {};
 
-	all_heroes.cruasder.battle.stay.setPosition(view_ñentre.x, view_ñentre.y + 130);
-	all_heroes.rogue.battle.stay.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
-	all_heroes.wizard.battle.stay.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
-	all_heroes.mage.battle.stay.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+	all_heroes.cruasder.battle.stay.setPosition(view_ñentre.x - 100, view_ñentre.y + 130);
+	all_heroes.rogue.battle.stay.setPosition(view_ñentre.x - 300, view_ñentre.y + 130);
+	all_heroes.wizard.battle.stay.setPosition(view_ñentre.x - 500, view_ñentre.y + 130);
+	all_heroes.mage.battle.stay.setPosition(view_ñentre.x - 700, view_ñentre.y + 130);
 
-	all_heroes.cruasder.battle.batle_sprite.setPosition(view_ñentre.x, view_ñentre.y + 130);
-	all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
-	all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
-	all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
+	all_heroes.cruasder.battle.batle_sprite.setPosition(view_ñentre.x - 100, view_ñentre.y + 130);
+	all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 300, view_ñentre.y + 130);
+	all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 500, view_ñentre.y + 130);
+	all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 700, view_ñentre.y + 130);
 
 	for (int i = 0; i < 3; i++)
 	{
-		enemy[i].battle_sprite = enemy[i].stay;
+		//enemy[i].battle_sprite = enemy[i].stay;
 		enemy[i].battle_sprite = {};
-		enemy[i].stay.setPosition(view_ñentre.x + 200 + (200 * i), view_ñentre.y + 130);
-		enemy[i].battle_sprite.setPosition(view_ñentre.x + 200 + (200 * i), view_ñentre.y + 130);
+		enemy[i].stay.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
+		enemy[i].battle_sprite.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
 	}
 }
 
@@ -66,8 +66,6 @@ void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroe
 	DrawEnemy(enemy, window);
 	if (battle_param.battle_time <= 2)
 	{
-		std::cout << "===";
-		//all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.attack1;
 		window.draw(battle_param.battle_image.eclipse.sprite);
 		window.draw(all_heroes.cruasder.battle.batle_sprite);
 		window.draw(all_heroes.rogue.battle.batle_sprite);
@@ -83,7 +81,6 @@ void BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_
 	bool flaq = false;
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
 	UpdeatBattleImages(battle_param.battle_image, view_ñentre);
-	std::cout << battle_param.jump_step << "\n";
 	if (battle_param.jump_step == 0)
 	{
 		battle_param.clock_battle.restart();
@@ -109,8 +106,4 @@ void BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_
 			battle_param.jump_step = 0;
 	}
 	DrawBattleImages(battle_param, all_heroes, enemy, window);
-
-
-
-
 }

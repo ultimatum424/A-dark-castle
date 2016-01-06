@@ -9,6 +9,7 @@ struct StructEvent
 	int key_attack;
 	int key_left;
 	int key_right;
+	int key_escape;
 };
 
 void CheckEvent(RenderWindow& window, StructEvent& key_event, int stage_game);

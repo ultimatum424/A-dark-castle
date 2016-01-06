@@ -12,12 +12,15 @@
 #include "battle.h"
 #include "event.h"
 #include "map.h"
+#include "inventory.h"
 
 
 using namespace sf;
+
+
 int stage_game;
 void Init(StructAllHeroes& all_heroes, StructAllEnemy& all_enemy, StructMenu& menu, 
-	StructBattleParam& battle_param, StructView& view, StructLocalEnemy local_enemy[5],
+	StructBattleParam& battle_param, StructView& view, StructLocalEnemy local_enemy[ENEMY_COUNT],
 	int& stage_game)
 {
 	SetView(view);
@@ -48,13 +51,16 @@ void Run_Game(RenderWindow& window)
 	StructMap map;
 	StructEvent key_event;
 	StructAllEnemy all_enemy;
-	StructLocalEnemy local_enemy[5];
+	StructLocalEnemy local_enemy[ENEMY_COUNT];
 	StructAllHeroes all_heroes;
 	StructBattleParam battle_param;
 	StructTime time_animation;
+	StructInventory inventory;
 	Init(all_heroes, all_enemy, menu, battle_param, view, local_enemy, stage_game);
 	InitMap(map);
 	SetHerosAndEnemy(all_heroes, local_enemy, view.view_ñentre);
+	InitInventory(inventory);
+	InitShop(inventory);
 	while (window.isOpen())
 	{
 		time_animation.clock.restart();
@@ -68,21 +74,31 @@ void Run_Game(RenderWindow& window)
 		ViewUpdate(view, time_animation.time, stage_game);
 		if (stage_game == 0)
 		{
+			if ((key_event.key_escape))
+				window.close();
 			UpdateMenu(menu, key_event, stage_game, view.view_ñentre);
 			DrawMenu(menu, window);
+			
 		}
 		if (stage_game == 1)
 		{
-			ExplorationMod(map, key_event);
-			DrawMap(map, window);
-			DrawRoom(map, view.view_ñentre, window);
+			UpdeatInventory(inventory, view.view_ñentre);
+			ExplorationMod(map, key_event, inventory, stage_game);
+			DrawMap(map, view.view_ñentre, window);
+			DrawInventory(inventory, window);
 		}
 		if (stage_game == 2)
 		{
 			BattleMod(all_heroes, local_enemy[0].enemy, view.view_ñentre, battle_param, key_event.key_attack, window);
 		}		
+		if (stage_game == 3)
+		{
+			ShopMode(inventory, key_event, view.view_ñentre, stage_game);
+			DrawShop(inventory, window);
+		}
 		//std::cout << stage_game;
 		//DrawGame(window, menu, battle_param, all_heroes, local_enemy[5].enemy);
+		
 		window.display();
 	}
 }
@@ -90,7 +106,6 @@ int main()
 {
 	setlocale(LC_CTYPE, "rus");
 	sf::RenderWindow window(sf::VideoMode(SIZE_WINDOW.x, SIZE_WINDOW.y), "A dark castle");
-
 	Run_Game(window);
 	return 0;
 }
