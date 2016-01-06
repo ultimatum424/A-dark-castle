@@ -89,7 +89,15 @@ void Run_Game(RenderWindow& window)
 		}
 		if (stage_game == 2)
 		{
-			BattleMod(all_heroes, local_enemy[0].enemy, view.view_ñentre, battle_param, key_event.key_attack, window);
+			int falq;
+			falq = BattleMod(all_heroes, local_enemy[0].enemy, view.view_ñentre, battle_param, key_event, window);
+			if (falq == 2)
+			{
+				stage_game = 1;
+				map.hero_pos = map.previous_hero_pos;
+				inventory.food.quantity -= 5;
+				inventory.relics.quantity -= 2;
+			}
 		}		
 		if (stage_game == 3)
 		{

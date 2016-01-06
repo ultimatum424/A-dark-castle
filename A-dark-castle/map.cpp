@@ -229,7 +229,8 @@ void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inve
 		inventory.food.quantity -= MoveHero(map, key_event);
 	if (key_event.key_escape)
 		stage_game = 0;
-	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
+	//if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
+	if ((map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
 		stage_game = 2;
 	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 3))
 		stage_game = 3;

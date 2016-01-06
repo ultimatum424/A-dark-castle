@@ -76,11 +76,13 @@ void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroe
 	}
 }
 
-void BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, int key_attack, RenderWindow& window)
+int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window)
 {
 	bool flaq = false;
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
 	UpdeatBattleImages(battle_param.battle_image, view_ñentre);
+	if (key_event.key_escape)
+		return 2;
 	if (battle_param.jump_step == 0)
 	{
 		battle_param.clock_battle.restart();
@@ -90,13 +92,13 @@ void BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_
 	{
 		UpdeatBattle(all_heroes, enemy, view_ñentre);
 		if (battle_param.jump_step == 1)
-			flaq = AttackModeCrusader(all_heroes, enemy, key_attack);
+			flaq = AttackModeCrusader(all_heroes, enemy, key_event.key_attack);
 		if (battle_param.jump_step == 2)
-			flaq = AttackModeRogue(all_heroes, enemy, key_attack);
+			flaq = AttackModeRogue(all_heroes, enemy, key_event.key_attack);
 		if (battle_param.jump_step == 3)
-			flaq = AttackModeWizard(all_heroes, enemy, key_attack);
+			flaq = AttackModeWizard(all_heroes, enemy, key_event.key_attack);
 		if (battle_param.jump_step == 4)
-			flaq = AttackModeMage(all_heroes, key_attack);
+			flaq = AttackModeMage(all_heroes, key_event.key_attack);
 		if (flaq)
 		{
 			battle_param.clock_battle.restart();

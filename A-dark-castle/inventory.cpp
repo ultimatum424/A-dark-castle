@@ -43,6 +43,12 @@ void UpdeatInventory(StructInventory& inventory, Vector2f view_ñentre)
 	inventory.gold.sprite.setPosition(view_ñentre.x + 400 + inventory.gold.size.x, view_ñentre.y + 200);
 	inventory.relics.sprite.setPosition(view_ñentre.x + 400 + (inventory.relics.size.x * 2), view_ñentre.y + 200);
 
+	if (inventory.food.quantity < 0)
+		inventory.food.quantity = 0;
+	if (inventory.gold.quantity < 0)
+		inventory.gold.quantity = 0;
+	if (inventory.relics.quantity < 0)
+		inventory.relics.quantity = 0;
 	std::ostringstream temp_food;
 	std::ostringstream temp_gold;
 	std::ostringstream temp_relics;
