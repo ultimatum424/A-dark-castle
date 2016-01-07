@@ -32,5 +32,7 @@ void InitBattleImages(StructBattleImage& battle_image);
 void InitBattleParam(StructBattleParam& battle_param);
 void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre);
 void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre);
-void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroes, StructEnemy enemy[3], RenderWindow& window);
+void UpdeatPercks(StructAllHeroes& all_heroes, Vector2f view_ñentre);
+void OutHpInfo(Structheroes& hero, Vector2f view_ñentre, int num, RenderWindow& window);
+void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, RenderWindow& window);
 int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window);

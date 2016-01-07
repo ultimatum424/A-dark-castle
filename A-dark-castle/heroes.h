@@ -43,6 +43,8 @@ struct Structheroes
 	{
 		Image image;
 		Texture texture;
+		Image image_perks;
+		Texture texture_perks;
 		Vector2f heroesPosition;
 		struct StructAction
 		{
@@ -60,7 +62,7 @@ struct Structheroes
 		Sprite die;
 		Sprite batle_sprite;
 		Sprite batle_icon;
-		Sprite image_ability;
+		Sprite ability;
 	} battle;
 	struct StructExploration
 	{

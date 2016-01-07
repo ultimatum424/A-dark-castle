@@ -16,22 +16,24 @@ void InitHeroCrusader(Structheroes& hero, vector<string> file)
 	hero.battle.attack4.setTexture(hero.battle.texture);
 	hero.battle.get_damage.setTexture(hero.battle.texture);
 
-	hero.battle.stay.setTextureRect(IntRect(0, 1282, 180, 430));
-	hero.battle.attack1.setTextureRect(IntRect(0, 0, 235, 340));
-	hero.battle.attack2.setTextureRect(IntRect(0, 340, 453, 233));
-	hero.battle.attack3.setTextureRect(IntRect(0, 573, 267, 384));	
-	hero.battle.attack4.setTextureRect(IntRect(0, 957, 287, 325));
-	hero.battle.get_damage.setTextureRect(IntRect(0, 1712, 181, 361));
+	hero.battle.stay.setTextureRect(IntRect(0, 0, 181, 430));
+	hero.battle.attack1.setTextureRect(IntRect(0, 430, 297, 325));
+	hero.battle.attack2.setTextureRect(IntRect(0, 755, 235, 340));
+	hero.battle.attack3.setTextureRect(IntRect(0, 1095, 267, 520));	
+	hero.battle.attack4.setTextureRect(IntRect(0, 1615, 453, 233));
+	hero.battle.get_damage.setTextureRect(IntRect(0, 1848, 181, 361));
 
 	hero.battle.stay.setOrigin(0, 430);
-	hero.battle.attack1.setOrigin(0, 340);
-	hero.battle.attack2.setOrigin(0, 233);
-	hero.battle.attack3.setOrigin(0, 384);
-	hero.battle.attack4.setOrigin(0, 325);
+	hero.battle.attack1.setOrigin(0, 325);
+	hero.battle.attack2.setOrigin(0, 340);
+	hero.battle.attack3.setOrigin(0, 520);
+	hero.battle.attack4.setOrigin(0, 233);
 	hero.battle.get_damage.setOrigin(0, 361);
-	//image.loadFromFile(file[1]);
-	//texture.loadFromImage(image);
-	//hero.battle.batle_icon.setTexture(texture);
+	hero.battle.image_perks.loadFromFile(file[1]);
+	hero.battle.texture_perks.loadFromImage(hero.battle.image_perks);
+	hero.battle.ability.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 60;
 	hero.stats.def = 1;
 	hero.stats.damage = 0.5;
@@ -51,8 +53,8 @@ void InitHeroRogue(Structheroes& hero, vector<string> file)
 	hero.battle.stay.setTextureRect(IntRect(0, 0, 201, 306));
 	hero.battle.attack1.setTextureRect(IntRect(0, 306, 349, 300));	
 	hero.battle.attack2.setTextureRect(IntRect(0, 606, 324, 268));	
-	hero.battle.attack3.setTextureRect(IntRect(0, 892, 349, 300));
-	hero.battle.attack4.setTextureRect(IntRect(0, 192, 342, 236));
+	hero.battle.attack3.setTextureRect(IntRect(0, 874, 349, 300));
+	hero.battle.attack4.setTextureRect(IntRect(0, 1174, 342, 236));
 	hero.battle.get_damage.setTextureRect(IntRect(0, 1410, 202, 282));
 
 	hero.battle.stay.setOrigin(0, 306);
@@ -62,9 +64,11 @@ void InitHeroRogue(Structheroes& hero, vector<string> file)
 	hero.battle.attack4.setOrigin(0, 236);
 	hero.battle.get_damage.setOrigin(0, 282);
 
-	//image.loadFromFile(file[1]);
-	//texture.loadFromImage(image);
-	//hero.battle.batle_icon.setTexture(texture);
+	hero.battle.image_perks.loadFromFile(file[1]);
+	hero.battle.texture_perks.loadFromImage(hero.battle.image_perks);
+	hero.battle.ability.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 40;
 	hero.stats.def = 0.25;
 	hero.stats.damage = 1.5;
@@ -94,9 +98,11 @@ void InitHeroWizard(Structheroes& hero, vector<string> file)
 	hero.battle.attack4.setOrigin(0, 259);
 	hero.battle.get_damage.setOrigin(0, 298);
 
-	//image.loadFromFile(file[1]);
-	//texture.loadFromImage(image);
-	//hero.battle.batle_icon.setTexture(texture);
+	hero.battle.image_perks.loadFromFile(file[1]);
+	hero.battle.texture_perks.loadFromImage(hero.battle.image_perks);
+	hero.battle.ability.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 30;
 	hero.stats.def = 0.5;
 	hero.stats.damage = 0.5;
@@ -125,9 +131,11 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 	hero.battle.attack4.setOrigin(0, 408);
 	hero.battle.get_damage.setOrigin(0, 311);
 
-	//image.loadFromFile(file[1]);
-	//texture.loadFromImage(image);
-	//hero.battle.batle_icon.setTexture(texture);
+	hero.battle.image_perks.loadFromFile(file[1]);
+	hero.battle.texture_perks.loadFromImage(hero.battle.image_perks);
+	hero.battle.ability.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
+	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 30;
 	hero.stats.def = 0.5;
 	hero.stats.damage = 0.5;
@@ -135,13 +143,13 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 
 void InitHeroes(StructAllHeroes& all_heroes)
 {
-	vector<string> files = { "../images/heroes/crusader/attack.png", "../images/heroes/crusader/icon.png" };
+	vector<string> files = { "../images/heroes/crusader/attack.png", "../images/heroes/crusader/perks.png" };
 	InitHeroCrusader(all_heroes.cruasder, files);
-	files = { "../images/heroes/rogue/battle.png", "../images/heroes/crusader/icon.png" };
+	files = { "../images/heroes/rogue/battle.png", "../images/heroes/rogue/perks.png" };
 	InitHeroRogue(all_heroes.rogue, files);
-	files = { "../images/heroes/wizard/battle.png", "../images/heroes/crusader/icon.png" };
+	files = { "../images/heroes/wizard/battle.png", "../images/heroes/wizard/perks.png" };
 	InitHeroWizard(all_heroes.wizard, files);
-	files = { "../images/heroes/mage/battle.png", "../images/heroes/crusader/icon.png" };
+	files = { "../images/heroes/mage/battle.png", "../images/heroes/mage/perks.png" };
 	InitHeroMage(all_heroes.mage, files);
 }
 
@@ -319,12 +327,12 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& 
 	}
 	else if (key_attack == 4)
 	{
-		return true;
 		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.attack4;
 		if (enemy[0].hp != 0)
 			enemy[0].battle_sprite = enemy[0].get_damage;
 		attack_cruasder.Attack4(all_heroes.cruasder, enemy[0]);
 		key_attack = 0;
+		return true;
 	}
 	return false;
 }
