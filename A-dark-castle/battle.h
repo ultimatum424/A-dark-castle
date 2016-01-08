@@ -35,5 +35,8 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 void UpdeatPercks(StructAllHeroes& all_heroes, Vector2f view_ñentre);
 void OutHpInfo(Structheroes& hero, Vector2f view_ñentre, int num, RenderWindow& window);
 void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, RenderWindow& window);
+int CheckDieHero(Structheroes& hero, int& jump_step);
+int CheckDieAllHero(StructAllHeroes& all_heroes);
 int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy);
+int CheckDieEnemy(StructEnemy enemy[3]);
 int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window);

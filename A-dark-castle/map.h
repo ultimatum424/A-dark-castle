@@ -6,7 +6,7 @@ using namespace sf;
 const int MAP_SIZE = 15;
 const int ENEMY_COUNT = 40;
 const int CHEST_COUNT = 10;
-const int DOOR_COUNT = 5;
+const int DOOR_COUNT = 10;
 const int TREASURE_COUNT = 1;
 // -2 - граница
 // -1 - не исследованно
@@ -22,6 +22,7 @@ struct StructMap
 {
 	int tile_map[MAP_SIZE][MAP_SIZE];
 	int tile_map_visible[MAP_SIZE][MAP_SIZE];
+	int tile_map_enemy[MAP_SIZE][MAP_SIZE];
 	struct StructImageMap
 	{
 		int size_x;
@@ -40,7 +41,7 @@ struct StructMap
 };
 
 void InitImageMap(StructMap& map);
-void InitMap(int tile_map[MAP_SIZE][MAP_SIZE]);
+void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE]);
 void InitMapVisible(int tile_map_visible[MAP_SIZE][MAP_SIZE]);
 void InitMap(StructMap& map);
 void DrawMiniMap(StructMap& map, RenderWindow& window);

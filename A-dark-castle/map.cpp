@@ -4,26 +4,21 @@
 #include <ctime>
 #include <iostream>
 
-void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE])
+void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE])
 {
 	srand(time(0));
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
 		for (int j = 0; j < MAP_SIZE; j++)
 		{
+			tile_map_enemy[i][j] = 0;
 			tile_map[i][j] = -1;
 		}
-	}
-	for (int i = 0; i < MAP_SIZE; i++)
-	{
-		//tile_map[i][0] = -2;
-		//tile_map[i][MAP_SIZE - 1] = -2;
-		//tile_map[0][i] = -2;
-		//tile_map[MAP_SIZE - 1][i] = -2;
 	}
 	tile_map[0][0] = 0;
 	// расставляем врагов
 	int temp_count_enemy = ENEMY_COUNT;
+	int enemy = 0;
 	while (temp_count_enemy != 0)
 	{
 		int secret_x = (rand() % MAP_SIZE);
@@ -31,6 +26,8 @@ void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE])
 		if (tile_map[secret_x][secret_y] == -1)
 		{
 			tile_map[secret_x][secret_y] = 1;
+			tile_map_enemy[secret_x][secret_y] = enemy;
+			enemy++;
 			temp_count_enemy--;
 		}
 	}
@@ -74,7 +71,7 @@ void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE])
 	{
 		for (int j = 0; j < MAP_SIZE; j++)
 		{
-			std::cout << tile_map[i][j] << " ";
+			std::cout << tile_map_enemy[i][j] << " ";
 		}
 		std::cout << "\n";
 	}
@@ -116,7 +113,7 @@ void InitImageMap(StructMap& map)
 void InitMap(StructMap& map)
 {
 	map.hero_pos = { 0, 0 };
-	InitMapReal(map.tile_map);
+	InitMapReal(map.tile_map, map.tile_map_enemy);
 	InitMapVisible(map.tile_map_visible);
 	InitImageMap(map);
 }

@@ -202,7 +202,7 @@ void InitBandit(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 355);
 	enemy.attack.setOrigin(0, 254);
 	enemy.get_damage.setOrigin(0, 300);
-	enemy.hp = 50;
+	enemy.hp = 30;
 }
 void InitGhoul(StructEnemy& enemy, string file)
 {
@@ -236,7 +236,7 @@ void InitNecromant(StructEnemy& enemy, string file)
 	enemy.stay.setOrigin(0, 434);
 	enemy.get_damage.setOrigin(0, 309);
 	enemy.attack.setOrigin(0, 335);
-	enemy.hp = 50;
+	enemy.hp = 40;
 }
 void InitAllEnemy(StructAllEnemy& all_enemy)
 {
@@ -248,7 +248,7 @@ void InitAllEnemy(StructAllEnemy& all_enemy)
 void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[ENEMY_COUNT])
 {
 	srand(time(NULL));
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
@@ -309,7 +309,7 @@ void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[
 	//all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
 	//all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
 	//all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{

@@ -68,12 +68,11 @@ void Run_Game(RenderWindow& window)
 		time_animation.clock.restart();
 		time_animation.time = time_animation.clock.getElapsedTime().asMicroseconds();
 		time_animation.time = time_animation.time / 1000;
-		//std::cout << stage_game << "\n";
 		window.clear(sf::Color::White);
-		//SetHeroes(all_heroes);
 		CheckEvent(window, key_event, stage_game);
 		window.setView(view.camera);
 		ViewUpdate(view, time_animation.time, stage_game);
+		if (stage_game == -1)
 		if (stage_game == 0)
 		{
 			if ((key_event.key_escape))
@@ -88,17 +87,28 @@ void Run_Game(RenderWindow& window)
 			ExplorationMod(map, key_event, inventory, stage_game);
 			DrawMap(map, view.view_ñentre, window);
 			DrawInventory(inventory, window);
+			if (inventory.food.quantity == 0)
+				stage_game == -1;
 		}
 		if (stage_game == 2)
 		{
 			int falq;
-			falq = BattleMod(all_heroes, local_enemy[0].enemy, view.view_ñentre, battle_param, key_event, window);
+			falq = BattleMod(all_heroes, local_enemy[map.tile_map_enemy[map.hero_pos.x][map.hero_pos.y]].enemy, view.view_ñentre, battle_param, key_event, window);
 			if (falq == 2)
 			{
 				stage_game = 1;
 				map.hero_pos = map.previous_hero_pos;
 				inventory.food.quantity -= 5;
 				inventory.relics.quantity -= 2;
+			}
+			if (falq == 3)
+				stage_game = 1;
+			if (falq == 1)
+			{
+				stage_game = 1;
+				inventory.gold.quantity +=300;
+				inventory.food.quantity -= 2;
+				map.tile_map[map.hero_pos.x][map.hero_pos.y] = 0;
 			}
 		}		
 		if (stage_game == 3)
@@ -116,7 +126,7 @@ void Run_Game(RenderWindow& window)
 int main()
 {
 	setlocale(LC_CTYPE, "rus");
-	sf::RenderWindow window(sf::VideoMode(SIZE_WINDOW.x, SIZE_WINDOW.y), "A dark castle");
+	sf::RenderWindow window(sf::VideoMode(SIZE_WINDOW.x, SIZE_WINDOW.y), "A dark castle", sf::Style::Fullscreen);
 	Run_Game(window);
 	return 0;
 }

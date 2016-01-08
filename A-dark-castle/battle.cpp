@@ -120,95 +120,158 @@ void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroe
 }
 int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
 {
-	int damage;
-	int heroes_victim = rand() % 4 + 1;
-	int amount_damage = rand() % 7 + 1;
-	//std::cout << heroes_victim << '-' << amount_damage << "\n";
-	if (heroes_victim == 1)
+	bool victim_attatck = 0;
+	while (!victim_attatck)
 	{
-		
-		damage = amount_damage / all_heroes.cruasder.stats.def;
-		if (all_heroes.cruasder.stats.hp >= damage)
+		int damage;
+		int heroes_victim = rand() % 4 + 1;
+		int amount_damage = rand() % 7 + 1;
+		if (heroes_victim == 1)
 		{
-			all_heroes.cruasder.stats.hp -= damage;
-			all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.die;
-			enemy.battle_sprite = enemy.attack;
-			enemy.battle_sprite.setPosition(all_heroes.cruasder.battle.stay.getPosition());
-			return 1;
+			damage = amount_damage / all_heroes.cruasder.stats.def;
+			if (all_heroes.cruasder.stats.hp)
+			{
+				victim_attatck = 1;
+				if (all_heroes.cruasder.stats.hp <= damage)
+					all_heroes.cruasder.stats.hp = 0;
+				else
+					all_heroes.cruasder.stats.hp -= damage;
+				all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.get_damage;
+				enemy.battle_sprite = enemy.attack;
+				enemy.battle_sprite.setPosition(all_heroes.cruasder.battle.stay.getPosition());
+				return 1;
+			}
 		}
-		else heroes_victim++;
-	}
-	if (heroes_victim == 2)
-	{
-		damage = amount_damage / all_heroes.rogue.stats.def;
-		if (all_heroes.rogue.stats.hp >= damage)
+		if (heroes_victim == 2)
 		{
-			all_heroes.rogue.stats.hp -= damage;
-			all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.die;
-			enemy.battle_sprite = enemy.attack;
-			enemy.battle_sprite.setPosition(all_heroes.rogue.battle.stay.getPosition());
-			return 1;
+			damage = amount_damage / all_heroes.rogue.stats.def;
+			if (all_heroes.rogue.stats.hp)
+			{
+				victim_attatck = 1;
+				if (all_heroes.rogue.stats.hp <= damage)
+					all_heroes.rogue.stats.hp = 0;
+				else
+					all_heroes.rogue.stats.hp -= damage;
+				all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.get_damage;
+				enemy.battle_sprite = enemy.attack;
+				enemy.battle_sprite.setPosition(all_heroes.rogue.battle.stay.getPosition());
+				return 1;
+			}
 		}
-		else heroes_victim++;
-	}
-	if (heroes_victim == 3)
-	{
-		damage = amount_damage / all_heroes.wizard.stats.def;
-		if (all_heroes.wizard.stats.hp >= damage)
+		if (heroes_victim == 3)
 		{
-			all_heroes.wizard.stats.hp -= damage;
-			all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.die;
-			enemy.battle_sprite = enemy.attack;
-			enemy.battle_sprite.setPosition(all_heroes.wizard.battle.stay.getPosition());
-			return 1;
+			damage = amount_damage / all_heroes.wizard.stats.def;
+			if (all_heroes.wizard.stats.hp)
+			{
+				victim_attatck = 1;
+				if (all_heroes.wizard.stats.hp < damage)
+					all_heroes.wizard.stats.hp = 0;
+				else
+					all_heroes.wizard.stats.hp -= damage;
+				all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.get_damage;
+				enemy.battle_sprite = enemy.attack;
+				enemy.battle_sprite.setPosition(all_heroes.wizard.battle.stay.getPosition());
+				return 1;
+			}
 		}
-		else heroes_victim++;
-	}
-	if (heroes_victim == 4)
-	{
-		damage = amount_damage / all_heroes.mage.stats.def;
-		if (all_heroes.mage.stats.hp >= damage)
+		if (heroes_victim == 4)
 		{
-			all_heroes.mage.stats.hp -= damage;
-			all_heroes.rogue.battle.batle_sprite = all_heroes.mage.battle.die;
-			enemy.battle_sprite = enemy.attack;
-			enemy.battle_sprite.setPosition(all_heroes.mage.battle.stay.getPosition());
-			return 1;
+			damage = amount_damage / all_heroes.mage.stats.def;
+			if (all_heroes.mage.stats.hp)
+			{
+				victim_attatck = 1;
+				if (all_heroes.mage.stats.hp <= damage)
+					all_heroes.mage.stats.hp = 0;
+				else
+					all_heroes.mage.stats.hp -= damage;
+				all_heroes.rogue.battle.batle_sprite = all_heroes.mage.battle.get_damage;
+				enemy.battle_sprite = enemy.attack;
+				enemy.battle_sprite.setPosition(all_heroes.mage.battle.stay.getPosition());
+				return 1;
+			}
 		}
-		else heroes_victim = 1;
 	}
 }
-
+int CheckDieHero(Structheroes& hero)
+{
+	if (hero.stats.hp == 0)
+	{
+		hero.battle.stay = hero.battle.die;
+		return 1;
+	}
+	return 0;
+}
+int CheckDieAllHero(StructAllHeroes& all_heroes)
+{
+	int check = CheckDieHero(all_heroes.cruasder) + CheckDieHero(all_heroes.rogue) +
+		CheckDieHero(all_heroes.wizard) + CheckDieHero(all_heroes.mage);
+	if (check == 4)
+		return 1;
+	else
+		return 0;
+}
+int CheckDieEnemy(StructEnemy enemy[3])
+{
+	if ((enemy[0].hp + enemy[1].hp + enemy[2].hp) == 0)
+		return 1;
+	else return 0;
+}
 int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window)
 {
 	bool flaq = false;
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
 	UpdeatBattleImages(battle_param.battle_image, view_ñentre);
 	UpdeatPercks(all_heroes, view_ñentre);
+	if (CheckDieAllHero(all_heroes))
+		return 3;
 	if (key_event.key_escape)
 		return 2;
+	if (CheckDieEnemy(enemy))
+		return 1;
 	if (battle_param.jump_step == 0)
 	{
-		battle_param.clock_battle.restart();
+		//battle_param.clock_battle.restart();
 		battle_param.jump_step = 1;
 	}
 	if (battle_param.battle_time > 2)
 	{
 		UpdeatBattle(all_heroes, enemy, view_ñentre);
-		if (battle_param.jump_step == 1)
+		std::cout << battle_param.jump_step << "\n";
+		
+		if ((battle_param.jump_step == 1) && (all_heroes.cruasder.stats.hp))
 			flaq = AttackModeCrusader(all_heroes, enemy, key_event.key_attack);
-		if (battle_param.jump_step == 2)
+		if ((battle_param.jump_step == 2) && (all_heroes.rogue.stats.hp))
 			flaq = AttackModeRogue(all_heroes, enemy, key_event.key_attack);
-		if (battle_param.jump_step == 3)
+		if ((battle_param.jump_step == 3) && (all_heroes.wizard.stats.hp))
 			flaq = AttackModeWizard(all_heroes, enemy, key_event.key_attack);
-		if (battle_param.jump_step == 4)
+		if ((battle_param.jump_step == 4) && (all_heroes.mage.stats.hp))
 			flaq = AttackModeMage(all_heroes, key_event.key_attack);
-		if (battle_param.jump_step == 5)
+		if (CheckDieAllHero(all_heroes))
+			return 3;
+		if ((battle_param.jump_step == 5) && (enemy[0].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[0]);
-		if (battle_param.jump_step == 6)
+		if (CheckDieAllHero(all_heroes))
+			return 3;
+		if ((battle_param.jump_step == 6) && (enemy[1].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[1]);
-		if (battle_param.jump_step == 7)
+		if (CheckDieAllHero(all_heroes))
+			return 3;
+		if ((battle_param.jump_step == 7) && (enemy[2].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[2]);
+		if ((battle_param.jump_step == 1) && (all_heroes.cruasder.stats.hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 2) && (all_heroes.rogue.stats.hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 3) && (all_heroes.wizard.stats.hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 4) && (all_heroes.mage.stats.hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 5) && (enemy[0].hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 6) && (enemy[1].hp == 0))
+			battle_param.jump_step++;
+		if ((battle_param.jump_step == 7) && (enemy[2].hp == 0))
+			battle_param.jump_step++;
 		if (flaq)
 		{
 			battle_param.clock_battle.restart();

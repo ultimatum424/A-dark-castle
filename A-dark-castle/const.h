@@ -7,3 +7,8 @@ struct StructTime
 	Clock clock;
 	float time;
 };
+
+struct StructGame
+{
+
+};
