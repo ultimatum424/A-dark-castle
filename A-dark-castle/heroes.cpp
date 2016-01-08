@@ -78,7 +78,7 @@ void InitHeroRogue(Structheroes& hero, vector<string> file)
 	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
 	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 40;
-	hero.stats.def = 0.25;
+	hero.stats.def = 0.5;
 	hero.stats.damage = 1.5;
 }
 void InitHeroWizard(Structheroes& hero, vector<string> file)
@@ -177,13 +177,16 @@ void InitSkeleton(StructEnemy& enemy, string file)
 	enemy.stay.setTexture(enemy.texture);
 	enemy.get_damage.setTexture(enemy.texture);
 	enemy.attack.setTexture(enemy.texture);
+	enemy.die.setTexture(enemy.texture);
 	enemy.stay.setTextureRect(IntRect(0, 0, 200, 282));
 	enemy.attack.setTextureRect(IntRect(0, 282, 336, 287));
 	enemy.get_damage.setTextureRect(IntRect(0, 569, 181, 289));
+	enemy.die.setTextureRect(IntRect(0, 858, 315, 274));
 
 	enemy.stay.setOrigin(0, 282);
 	enemy.attack.setOrigin(0, 287);
 	enemy.get_damage.setOrigin(0, 260);
+	enemy.die.setOrigin(0, 274);
 	
 	enemy.hp = 50;
 }
@@ -195,13 +198,16 @@ void InitBandit(StructEnemy& enemy, string file)
 	enemy.stay.setTexture(enemy.texture);
 	enemy.get_damage.setTexture(enemy.texture);
 	enemy.attack.setTexture(enemy.texture);
+	enemy.die.setTexture(enemy.texture);
 	enemy.stay.setTextureRect(IntRect(0, 0, 181, 355));
 	enemy.attack.setTextureRect(IntRect(0, 385, 431, 254));
 	enemy.get_damage.setTextureRect(IntRect(0, 639, 208, 300));
+	enemy.die.setTextureRect(IntRect(0, 939, 335, 296));
 
 	enemy.stay.setOrigin(0, 355);
 	enemy.attack.setOrigin(0, 254);
 	enemy.get_damage.setOrigin(0, 300);
+	enemy.die.setOrigin(0, 296);
 	enemy.hp = 30;
 }
 void InitGhoul(StructEnemy& enemy, string file)
@@ -229,13 +235,17 @@ void InitNecromant(StructEnemy& enemy, string file)
 	enemy.stay.setTexture(enemy.texture);
 	enemy.get_damage.setTexture(enemy.texture);
 	enemy.attack.setTexture(enemy.texture);
+	enemy.die.setTexture(enemy.texture);
 	enemy.stay.setTextureRect(IntRect(0, 0, 217, 413));
 	enemy.attack.setTextureRect(IntRect(0, 434, 438, 309));
 	enemy.get_damage.setTextureRect(IntRect(0, 743, 208, 335));
+	enemy.die.setTextureRect(IntRect(0, 1078, 334, 184));
 
 	enemy.stay.setOrigin(0, 434);
 	enemy.get_damage.setOrigin(0, 309);
 	enemy.attack.setOrigin(0, 335);
+	enemy.die.setOrigin(0, 184);
+
 	enemy.hp = 40;
 }
 void InitAllEnemy(StructAllEnemy& all_enemy)
@@ -253,8 +263,6 @@ void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[ENEM
 		for (int j = 0; j < 3; j++)
 		{
 			int secret = rand() % 5;
-			//int secret = 2;
-			//std::cout << i << "---" << secret << "--" << j << "\n";
 			if (secret == 0) local_enemy[i].enemy[j] = all_enemy.skeleton;
 			if (secret == 1) local_enemy[i].enemy[j] = all_enemy.bandit;
 			if (secret == 2) local_enemy[i].enemy[j] = all_enemy.bandit;
@@ -316,12 +324,14 @@ void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[
 			local_enemy[i].enemy[j].stay.setPosition(view_ñentre.x + 100 + (200 * j), view_ñentre.y + 130);
 			local_enemy[i].enemy[j].attack.setPosition(view_ñentre.x + 70 + (200 * j), view_ñentre.y + 130);
 			local_enemy[i].enemy[j].get_damage.setPosition(view_ñentre.x + 100 + (200 * j), view_ñentre.y + 130);
+			local_enemy[i].enemy[j].die.setPosition(view_ñentre.x + 100 + (200 * j), view_ñentre.y + 130);
+			local_enemy[i].enemy[j].die.setScale(0.5, 0.5);
 			local_enemy[i].enemy[j].battle_sprite = local_enemy[i].enemy[j].stay;
 			//local_enemy[i].enemy[j].battle_sprite.setPosition(view_ñentre.x + 200 + (200 * j), view_ñentre.y + 130);
 		}
 	}
 }
-bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& key_attack)
+bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
 {
 	AttacksCruasder attack_cruasder;
 	if (key_attack == 1)
@@ -329,14 +339,20 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& 
 		key_attack = 0;
 		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.attack1;
 		if (enemy[0].hp != 0)
-			enemy[1].battle_sprite = enemy[0].get_damage;
+			enemy[0].battle_sprite = enemy[0].get_damage;
 		attack_cruasder.Attack1(all_heroes.cruasder, enemy[0]);
 		return true;
 	}
 	else if (key_attack == 2)
 	{
 		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.attack2;
-		attack_cruasder.Attack2(all_heroes.cruasder);
+		if (enemy[0].hp != 0)
+			enemy[0].battle_sprite = enemy[0].get_damage;
+		if (enemy[1].hp != 0)
+			enemy[1].battle_sprite = enemy[1].get_damage;
+		if (enemy[2].hp != 0)
+			enemy[2].battle_sprite = enemy[2].get_damage;
+		attack_cruasder.Attack2(all_heroes.cruasder, enemy);
 		key_attack = 0;
 		return true;
 	}
@@ -357,7 +373,7 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& 
 	}
 	return false;
 }
-bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& key_attack)
+bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
 {
 	AttacksRogue attack_rouge;
 	if (key_attack == 1)
@@ -400,7 +416,7 @@ bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& key
 	}
 	return false;
 }
-bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[4], int& key_attack)
+bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
 {
 	AttacksWizard attack_wizard;
 	if (key_attack == 1)

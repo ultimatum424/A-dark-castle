@@ -9,6 +9,9 @@ void CheckEvent(RenderWindow& window, StructEvent& key_event, int stage_game)
 	while (window.pollEvent(event))
 	{
 		if (event.type == Event::KeyPressed)
+			if (event.key.code == Keyboard::Tab)
+				key_event.key_tab = 1;
+		if (event.type == Event::KeyPressed)
 			if (event.key.code == Keyboard::Up)
 				key_event.key_up = 1;
 		if (event.type == Event::KeyPressed)

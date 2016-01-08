@@ -61,6 +61,7 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 		//enemy[i].battle_sprite = enemy[i].stay;
 		enemy[i].battle_sprite = {};
 		enemy[i].stay.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
+		enemy[i].die.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
 		enemy[i].attack.setPosition(view_ñentre.x  + (200 * i), view_ñentre.y + 130);
 		enemy[i].battle_sprite.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
 		enemy[i].sq.setSize(Vector2f(enemy[i].hp * 3, 10));
@@ -212,6 +213,11 @@ int CheckDieAllHero(StructAllHeroes& all_heroes)
 }
 int CheckDieEnemy(StructEnemy enemy[3])
 {
+	for (int i = 0; i < 3; i++)
+	{
+		if (enemy[i].hp == 0)
+			enemy[i].stay = enemy[i].die;
+	}
 	if ((enemy[0].hp + enemy[1].hp + enemy[2].hp) == 0)
 		return 1;
 	else return 0;

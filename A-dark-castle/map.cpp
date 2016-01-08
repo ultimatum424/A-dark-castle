@@ -237,4 +237,6 @@ void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inve
 		inventory.food.quantity -= 2;
 		map.tile_map[map.hero_pos.x][map.hero_pos.y] = 0;
 	}
+	if (key_event.key_tab)
+		stage_game = 4;
 }

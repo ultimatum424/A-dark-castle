@@ -94,9 +94,14 @@ struct AttacksCruasder
 		if (victim.hp > 15) victim.hp -= 15;
 		else victim.hp = 0;
 	}
-	void Attack2(Structheroes& cruasder)
+	void Attack2(Structheroes& cruasder, StructEnemy victim[3])
 	{
-		cruasder.stats.def = cruasder.stats.def + 0.5;
+		cruasder.stats.def = cruasder.stats.def + 0.25;
+		for (int i = 0; i < 3; i++)
+		{
+			if (victim[i].hp > 3) victim[i].hp -= 3;
+			else victim[i].hp = 0;
+		}
 	}
 	void Attack3(Structheroes& cruasder)
 	{
@@ -189,16 +194,22 @@ struct AttacksMage
 {
 	void Attack1(StructAllHeroes& all_heroes)
 	{
+		if (all_heroes.mage.stats.hp <= (all_heroes.mage.stats.max_hp) - 2) all_heroes.mage.stats.hp += 2;
+		else all_heroes.mage.stats.hp = all_heroes.mage.stats.max_hp;
 		if (all_heroes.cruasder.stats.hp <= (all_heroes.cruasder.stats.max_hp) - 6) all_heroes.cruasder.stats.hp += 6;
 		else all_heroes.cruasder.stats.hp = all_heroes.cruasder.stats.max_hp;
 	}
 	void Attack2(StructAllHeroes& all_heroes)
 	{
+		if (all_heroes.mage.stats.hp <= (all_heroes.mage.stats.max_hp) - 2) all_heroes.mage.stats.hp += 2;
+		else all_heroes.mage.stats.hp = all_heroes.mage.stats.max_hp;
 		if (all_heroes.rogue.stats.hp <= (all_heroes.rogue.stats.max_hp) - 6) all_heroes.rogue.stats.hp += 6;
 		else all_heroes.rogue.stats.hp = all_heroes.rogue.stats.max_hp;
 	}
 	void Attack3(StructAllHeroes& all_heroes)
 	{
+		if (all_heroes.mage.stats.hp <= (all_heroes.mage.stats.max_hp) - 2) all_heroes.mage.stats.hp += 2;
+		else all_heroes.mage.stats.hp = all_heroes.mage.stats.max_hp;
 		if (all_heroes.wizard.stats.hp <= (all_heroes.wizard.stats.max_hp) - 6) all_heroes.wizard.stats.hp += 6;
 		else all_heroes.wizard.stats.hp = all_heroes.wizard.stats.max_hp;
 	}
