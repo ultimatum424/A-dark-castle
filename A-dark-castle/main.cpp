@@ -13,7 +13,7 @@
 #include "event.h"
 #include "map.h"
 #include "inventory.h"
-
+#include "Sound.h"
 
 using namespace sf;
 
@@ -56,11 +56,13 @@ void Run_Game(RenderWindow& window)
 	StructBattleParam battle_param;
 	StructTime time_animation;
 	StructInventory inventory;
+	StructMusic sound;
 	Init(all_heroes, all_enemy, menu, battle_param, view, local_enemy, stage_game);
 	InitMap(map);
 	SetHerosAndEnemy(all_heroes, local_enemy, view.view_ñentre);
 	InitInventory(inventory);
 	InitShop(inventory);
+	InitSound(sound);
 	while (window.isOpen())
 	{
 		time_animation.clock.restart();
@@ -104,6 +106,7 @@ void Run_Game(RenderWindow& window)
 			ShopMode(inventory, key_event, view.view_ñentre, stage_game);
 			DrawShop(inventory, window);
 		}
+		PlaySound(sound, stage_game);
 		//std::cout << stage_game;
 		//DrawGame(window, menu, battle_param, all_heroes, local_enemy[5].enemy);
 		

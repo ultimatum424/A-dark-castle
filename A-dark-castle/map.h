@@ -4,7 +4,7 @@
 #include "inventory.h"
 using namespace sf;
 const int MAP_SIZE = 15;
-const int ENEMY_COUNT = 15;
+const int ENEMY_COUNT = 40;
 const int CHEST_COUNT = 10;
 const int DOOR_COUNT = 5;
 const int TREASURE_COUNT = 1;

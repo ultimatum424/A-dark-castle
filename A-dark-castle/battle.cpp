@@ -61,7 +61,11 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 		//enemy[i].battle_sprite = enemy[i].stay;
 		enemy[i].battle_sprite = {};
 		enemy[i].stay.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
+		enemy[i].attack.setPosition(view_ñentre.x  + (200 * i), view_ñentre.y + 130);
 		enemy[i].battle_sprite.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
+		enemy[i].sq.setSize(Vector2f(enemy[i].hp * 3, 10));
+		enemy[i].sq.setFillColor(Color::Red);
+		enemy[i].sq.setPosition(view_ñentre.x + 200, view_ñentre.y + 200 + (i * 50));
 	}
 }
 void OutHpInfo(Structheroes& hero, Vector2f view_ñentre, int num, RenderWindow& window)
@@ -70,7 +74,7 @@ void OutHpInfo(Structheroes& hero, Vector2f view_ñentre, int num, RenderWindow& 
 	Font font;
 	font.loadFromFile("../Fonts/9210.ttf");
 	sf::Text Hp("", font, 20);
-	Hp.setColor(Color::Black);
+	Hp.setColor(Color::White);
 	std::ostringstream player_max_HP;
 	std::ostringstream playerHP;
 	std::ostringstream player_damage;
@@ -114,7 +118,66 @@ void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroe
 			window.draw(enemy[i].battle_sprite);
 	}
 }
-
+int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
+{
+	int damage;
+	int heroes_victim = rand() % 4 + 1;
+	int amount_damage = rand() % 7 + 1;
+	//std::cout << heroes_victim << '-' << amount_damage << "\n";
+	if (heroes_victim == 1)
+	{
+		
+		damage = amount_damage / all_heroes.cruasder.stats.def;
+		if (all_heroes.cruasder.stats.hp >= damage)
+		{
+			all_heroes.cruasder.stats.hp -= damage;
+			all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.die;
+			enemy.battle_sprite = enemy.attack;
+			enemy.battle_sprite.setPosition(all_heroes.cruasder.battle.stay.getPosition());
+			return 1;
+		}
+		else heroes_victim++;
+	}
+	if (heroes_victim == 2)
+	{
+		damage = amount_damage / all_heroes.rogue.stats.def;
+		if (all_heroes.rogue.stats.hp >= damage)
+		{
+			all_heroes.rogue.stats.hp -= damage;
+			all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.die;
+			enemy.battle_sprite = enemy.attack;
+			enemy.battle_sprite.setPosition(all_heroes.rogue.battle.stay.getPosition());
+			return 1;
+		}
+		else heroes_victim++;
+	}
+	if (heroes_victim == 3)
+	{
+		damage = amount_damage / all_heroes.wizard.stats.def;
+		if (all_heroes.wizard.stats.hp >= damage)
+		{
+			all_heroes.wizard.stats.hp -= damage;
+			all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.die;
+			enemy.battle_sprite = enemy.attack;
+			enemy.battle_sprite.setPosition(all_heroes.wizard.battle.stay.getPosition());
+			return 1;
+		}
+		else heroes_victim++;
+	}
+	if (heroes_victim == 4)
+	{
+		damage = amount_damage / all_heroes.mage.stats.def;
+		if (all_heroes.mage.stats.hp >= damage)
+		{
+			all_heroes.mage.stats.hp -= damage;
+			all_heroes.rogue.battle.batle_sprite = all_heroes.mage.battle.die;
+			enemy.battle_sprite = enemy.attack;
+			enemy.battle_sprite.setPosition(all_heroes.mage.battle.stay.getPosition());
+			return 1;
+		}
+		else heroes_victim = 1;
+	}
+}
 
 int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window)
 {
@@ -140,12 +203,18 @@ int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñ
 			flaq = AttackModeWizard(all_heroes, enemy, key_event.key_attack);
 		if (battle_param.jump_step == 4)
 			flaq = AttackModeMage(all_heroes, key_event.key_attack);
+		if (battle_param.jump_step == 5)
+			flaq = AttackModeEnemy(all_heroes, enemy[0]);
+		if (battle_param.jump_step == 6)
+			flaq = AttackModeEnemy(all_heroes, enemy[1]);
+		if (battle_param.jump_step == 7)
+			flaq = AttackModeEnemy(all_heroes, enemy[2]);
 		if (flaq)
 		{
 			battle_param.clock_battle.restart();
 			battle_param.jump_step++;
 		}
-		if (battle_param.jump_step == 5)
+		if (battle_param.jump_step == 8)
 			battle_param.jump_step = 0;
 	}
 	DrawBattleImages(battle_param, all_heroes, enemy, view_ñentre, window);
