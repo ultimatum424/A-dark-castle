@@ -16,6 +16,7 @@
 #include "inventory.h"
 #include "Sound.h"
 #include "campfire.h"
+#include "info.h"
 
 using namespace sf;
 const Vector2i SIZE_WINDOW = { 1400, 800 };
@@ -41,6 +42,7 @@ struct StructEndGame
 };
 struct StructGame
 {
+	StructInfo info;
 	StructCampfire campfire;
 	StructEndGame end_game;
 	StructView view;

@@ -3,12 +3,11 @@
 
 void InitCampfire(StructCampfire& campfire)
 {
-	campfire.camp_image.imagae.loadFromFile("../images/campfire/campfire.png");
-	campfire.camp_image.texture.loadFromImage(campfire.camp_image.imagae);
+	campfire.camp_image.image.loadFromFile("../images/campfire/campfire.png");
+	campfire.camp_image.texture.loadFromImage(campfire.camp_image.image);
 	campfire.camp_image.sprite.setTexture(campfire.camp_image.texture);
-
 }
-void UpdeatCampfire(StructCampfire& campfire, Vector2f view_ñentre)
+void UpdateCampfire(StructCampfire& campfire, Vector2f view_ñentre)
 {
 	campfire.camp_image.sprite.setPosition(view_ñentre.x - 700, view_ñentre.y - 400);
 }

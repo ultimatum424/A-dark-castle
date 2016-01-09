@@ -10,13 +10,13 @@ struct StructCampfire
 {
 	struct StructCapmImage
 	{
-		Image imagae;
+		Image image;
 		Texture texture;
 		Sprite sprite;
 	}camp_image;
 };
 
 void InitCampfire(StructCampfire& campfire);
-void UpdeatCampfire(StructCampfire& campfire, Vector2f view_ñentre);
+void UpdateCampfire(StructCampfire& campfire, Vector2f view_ñentre);
 void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, StructEvent key_event);
 void DrawCampfire(StructCampfire& campfire, StructInventory& inventory, RenderWindow& window);

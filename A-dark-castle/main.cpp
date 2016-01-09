@@ -1,8 +1,5 @@
-
 #include "const.h"
 using namespace sf;
-
-
 
 int stage_game;
 void InitGameOver(StructEndGame& end)
@@ -31,6 +28,7 @@ void DrawGameOver(StructEndGame& end, RenderWindow& window, int stage_game)
 }
 void Init(StructGame& game)
 {
+	InitAllInfo(game.info);
 	InitCampfire(game.campfire);
 	InitGameOver(game.end_game);
 	SetView(game.view);
@@ -60,6 +58,7 @@ void Run_Game(RenderWindow& window)
 		CheckEvent(window, game.key_event, stage_game);
 		window.setView(game.view.camera);
 		ViewUpdate(game.view, game.time_animation.time, stage_game);
+		UpdateInfo(game.info, game.view.view_ñentre);
 		if (stage_game == -1)
 		{
 			if (UpeatGameOver(game.end_game, game.view.view_ñentre, game.key_event))
@@ -111,7 +110,7 @@ void Run_Game(RenderWindow& window)
 		}
 		if (stage_game == 4)
 		{
-			UpdeatCampfire(game.campfire, game.view.view_ñentre);
+			UpdateCampfire(game.campfire, game.view.view_ñentre);
 			UpdeatInventory(game.inventory, game.view.view_ñentre);
 			CampfireMod(game.all_heroes, game.inventory, game.key_event);
 			DrawCampfire(game.campfire, game.inventory, window);
@@ -119,8 +118,11 @@ void Run_Game(RenderWindow& window)
 				stage_game = 1;
 		}
 		PlaySound(game.sound, stage_game);
+		DrawInfo(game.info, stage_game, game.key_event, game.map.tile_map[game.map.hero_pos.x][game.map.hero_pos.y], window);
+		CallInfo(game.info, stage_game, game.battle_param.jump_step, window);
 		//std::cout << stage_game;
 		//DrawGame(window, menu, battle_param, all_heroes, local_enemy[5].enemy);
+		window.draw(game.info.key_info.sprite);
 		window.display();
 	}
 }
