@@ -1,6 +1,7 @@
 #include "inventory.h"
 #include <iostream>
 #include "event.h"
+#include "Sound.h"
 
 void InitInventoryElement(StructInventory::StructCellInventory& element, Texture& texture, Font& font)
 {
@@ -97,7 +98,7 @@ void DrawShop(StructInventory& inventory, RenderWindow& window)
 	window.draw(inventory.shop.relics_gold);
 	DrawInventory(inventory, window);
 }
-void ShopMode(StructInventory& inventory, StructEvent key_event, Vector2f view_ñentre, int& stage_game)
+void ShopMode(StructInventory& inventory, StructEvent key_event, Vector2f view_ñentre, StructSound& sound_effect, int& stage_game)
 {
 	UpdeatShop(inventory, view_ñentre);
 	UpdeatInventory(inventory, view_ñentre);
@@ -123,6 +124,7 @@ void ShopMode(StructInventory& inventory, StructEvent key_event, Vector2f view_ñ
 				inventory.food.quantity++;
 			}
 		}
+		sound_effect.click.sound.play();
 	}
 	if (key_event.key_escape)
 		stage_game = 1;

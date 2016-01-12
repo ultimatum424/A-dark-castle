@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include <vector>
 #include "map.h"
+#include "Sound.h"
 using namespace sf;
 using namespace std;
 
@@ -10,12 +11,15 @@ struct StructEnemy
 	Image image;
 	Texture texture;
 	RectangleShape sq;
+	RectangleShape sq_max;
 	Sprite battle_sprite;
 	Sprite stay;
 	Sprite attack;
+	Sprite attack2;
 	Sprite get_damage;
 	Sprite die;
 	int hp;
+	int max_hp;
 };
 struct StructLocalEnemy
 {
@@ -27,6 +31,7 @@ struct StructAllEnemy
 	StructEnemy bandit;
 	StructEnemy ghoul;
 	StructEnemy necromant;
+	StructEnemy collector;
 };
 
 struct Structheroes
@@ -35,8 +40,8 @@ struct Structheroes
 	{
 		int hp;
 		int max_hp;
-		float damage;
-		float def;
+		double damage;
+		double def;
 		int position;
 	} stats;
 	struct StructBattle
@@ -52,7 +57,7 @@ struct Structheroes
 			int pos_y;
 			int size_x;
 			int size_y;
-		};
+		}stay_texture;
 		Sprite stay;
 		Sprite attack1;
 		Sprite attack2;
@@ -241,10 +246,10 @@ void InitAllEnemy(StructAllEnemy& all_enemy);
 void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[ENEMY_COUNT]);
 
 
-bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
-bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
-bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack);
-bool AttackModeMage(StructAllHeroes& all_heroes, int& key_attack);
+bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack);
+bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack);
+bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack);
+bool AttackModeMage(StructAllHeroes& all_heroes, StructSound& sound_effect, int& key_attack);
 void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[ENEMY_COUNT], Vector2f view_ñentre);
 void DrawHeroes(StructAllHeroes all_heroes, RenderWindow& window);
 void DrawEnemy(StructEnemy enemy[3], RenderWindow& window);

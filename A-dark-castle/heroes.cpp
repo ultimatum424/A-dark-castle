@@ -3,6 +3,7 @@
 #include "heroes.h"
 #include "map.h"
 #include <iostream>
+#include "Sound.h"
 
 
 void InitHeroCrusader(Structheroes& hero, vector<string> file)
@@ -19,6 +20,7 @@ void InitHeroCrusader(Structheroes& hero, vector<string> file)
 
 
 	hero.battle.stay.setTextureRect(IntRect(0, 0, 181, 430));
+	hero.battle.stay_texture = { 0, 0, 181, 430 };
 	hero.battle.attack1.setTextureRect(IntRect(0, 430, 297, 325));
 	hero.battle.attack2.setTextureRect(IntRect(0, 755, 235, 340));
 	hero.battle.attack3.setTextureRect(IntRect(0, 1095, 267, 520));	
@@ -57,6 +59,7 @@ void InitHeroRogue(Structheroes& hero, vector<string> file)
 	hero.battle.die.setTexture(hero.battle.texture);
 
 	hero.battle.stay.setTextureRect(IntRect(0, 0, 201, 306));
+	hero.battle.stay_texture = { 0, 0, 181, 430 };
 	hero.battle.attack1.setTextureRect(IntRect(0, 306, 349, 300));	
 	hero.battle.attack2.setTextureRect(IntRect(0, 606, 324, 268));	
 	hero.battle.attack3.setTextureRect(IntRect(0, 874, 349, 300));
@@ -78,7 +81,7 @@ void InitHeroRogue(Structheroes& hero, vector<string> file)
 	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
 	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 40;
-	hero.stats.def = 0.5;
+	hero.stats.def = 1;
 	hero.stats.damage = 1.5;
 }
 void InitHeroWizard(Structheroes& hero, vector<string> file)
@@ -95,6 +98,7 @@ void InitHeroWizard(Structheroes& hero, vector<string> file)
 	hero.battle.die.setTexture(hero.battle.texture);
 
 	hero.battle.stay.setTextureRect(IntRect(0, 0, 199, 316));
+	hero.battle.stay_texture = { 0, 0, 181, 430 };
 	hero.battle.attack1.setTextureRect(IntRect(0, 316, 228, 303));
 	hero.battle.attack2.setTextureRect(IntRect(0, 619, 199, 316));	
 	hero.battle.attack3.setTextureRect(IntRect(0, 935, 199, 316));	
@@ -116,8 +120,8 @@ void InitHeroWizard(Structheroes& hero, vector<string> file)
 	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
 	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 30;
-	hero.stats.def = 0.5;
-	hero.stats.damage = 0.5;
+	hero.stats.def = 1;
+	hero.stats.damage = 1;
 }
 void InitHeroMage(Structheroes& hero, vector<string> file)
 {
@@ -131,6 +135,7 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 	hero.battle.get_damage.setTexture(hero.battle.texture);
 	hero.battle.die.setTexture(hero.battle.texture);
 	hero.battle.stay.setTextureRect(IntRect(0, 0, 181, 341));
+	hero.battle.stay_texture = { 0, 0, 181, 430 };
 	hero.battle.attack1.setTextureRect(IntRect(0, 341, 197, 395));
 	hero.battle.attack2.setTextureRect(IntRect(0, 736, 197, 395));	
 	hero.battle.attack3.setTextureRect(IntRect(0, 1131, 197, 395));	
@@ -152,7 +157,7 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 	hero.battle.batle_icon.setTexture(hero.battle.texture_perks);
 	hero.battle.batle_icon.setTextureRect(IntRect(415, 190, 85, 85));
 	hero.stats.max_hp = hero.stats.hp = 30;
-	hero.stats.def = 0.5;
+	hero.stats.def = 1;
 	hero.stats.damage = 0.5;
 }
 
@@ -168,6 +173,31 @@ void InitHeroes(StructAllHeroes& all_heroes)
 	InitHeroMage(all_heroes.mage, files);
 }
 
+void InitCollector(StructEnemy& enemy, string file)
+{
+	enemy.image.loadFromFile(file);
+	enemy.texture.loadFromImage(enemy.image);
+
+	enemy.stay.setTexture(enemy.texture);
+	enemy.get_damage.setTexture(enemy.texture);
+	enemy.attack.setTexture(enemy.texture);
+	enemy.attack2.setTexture(enemy.texture);
+	enemy.die.setTexture(enemy.texture);
+	enemy.stay.setTextureRect(IntRect(0, 0, 345, 485));
+	enemy.attack.setTextureRect(IntRect(0, 485, 493, 508));
+	enemy.attack2.setTextureRect(IntRect(0, 993, 406, 454));
+	enemy.get_damage.setTextureRect(IntRect(0, 1447, 257, 440));
+	enemy.die.setTextureRect(IntRect(0, 0, 0, 0));
+
+	enemy.stay.setOrigin(0, 485);
+	enemy.attack.setOrigin(0, 508);
+	enemy.attack2.setOrigin(0, 454);
+	enemy.get_damage.setOrigin(0, 440);
+	enemy.die.setOrigin(0, 0);
+
+	enemy.hp = 100;
+	enemy.max_hp = 100;
+}
 void InitSkeleton(StructEnemy& enemy, string file)
 {
 	
@@ -189,6 +219,7 @@ void InitSkeleton(StructEnemy& enemy, string file)
 	enemy.die.setOrigin(0, 274);
 	
 	enemy.hp = 50;
+	enemy.max_hp = 50;
 }
 void InitBandit(StructEnemy& enemy, string file)
 {
@@ -209,6 +240,7 @@ void InitBandit(StructEnemy& enemy, string file)
 	enemy.get_damage.setOrigin(0, 300);
 	enemy.die.setOrigin(0, 296);
 	enemy.hp = 30;
+	enemy.max_hp = 30;
 }
 void InitGhoul(StructEnemy& enemy, string file)
 {
@@ -223,9 +255,10 @@ void InitGhoul(StructEnemy& enemy, string file)
 	enemy.get_damage.setTextureRect(IntRect(0, 789, 269, 372));
 
 	enemy.stay.setOrigin(0, 392);
-	enemy.get_damage.setOrigin(0, 397);
-	enemy.attack.setOrigin(445, 372);
-	enemy.hp = 50;
+	enemy.get_damage.setOrigin(0, 350);
+	enemy.attack.setOrigin(0, 372);
+	enemy.hp = 80;
+	enemy.max_hp = 80;
 }
 void InitNecromant(StructEnemy& enemy, string file)
 {
@@ -247,9 +280,11 @@ void InitNecromant(StructEnemy& enemy, string file)
 	enemy.die.setOrigin(0, 184);
 
 	enemy.hp = 40;
+	enemy.max_hp = 40;
 }
 void InitAllEnemy(StructAllEnemy& all_enemy)
 {
+	InitCollector(all_enemy.collector, "../images/enemy/collector/battle.png");
 	InitSkeleton(all_enemy.skeleton, "../images/enemy/skeleton/skeleton.png");
 	InitBandit(all_enemy.bandit, "../images/enemy/bandit/battle.png");
 	InitGhoul(all_enemy.ghoul, "../images/enemy/ghoul/battle.png");
@@ -270,6 +305,9 @@ void InitLocalEnemy(StructAllEnemy& all_enemy, StructLocalEnemy local_enemy[ENEM
 			if (secret == 4) local_enemy[i].enemy[j] = all_enemy.skeleton;
 		}
 	}
+	local_enemy[ENEMY_COUNT].enemy[0] = all_enemy.collector;
+	local_enemy[ENEMY_COUNT].enemy[1] = all_enemy.ghoul;
+	local_enemy[ENEMY_COUNT].enemy[2] = all_enemy.necromant;
 }
 void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[ENEMY_COUNT], Vector2f view_ñentre)
 {
@@ -317,7 +355,7 @@ void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[
 	//all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
 	//all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
 	//all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
-	for (int i = 0; i < ENEMY_COUNT; i++)
+	for (int i = 0; i <= ENEMY_COUNT; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
@@ -331,7 +369,7 @@ void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[
 		}
 	}
 }
-bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
+bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack)
 {
 	AttacksCruasder attack_cruasder;
 	if (key_attack == 1)
@@ -341,6 +379,7 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& 
 		if (enemy[0].hp != 0)
 			enemy[0].battle_sprite = enemy[0].get_damage;
 		attack_cruasder.Attack1(all_heroes.cruasder, enemy[0]);
+		sound_effect.knife.sound.play();
 		return true;
 	}
 	else if (key_attack == 2)
@@ -354,12 +393,14 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& 
 			enemy[2].battle_sprite = enemy[2].get_damage;
 		attack_cruasder.Attack2(all_heroes.cruasder, enemy);
 		key_attack = 0;
+		sound_effect.ranged_attack.sound.play();
 		return true;
 	}
 	else if (key_attack == 3) {
 		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.attack3;
 		key_attack = 0;
 		attack_cruasder.Attack3(all_heroes.cruasder);
+		sound_effect.hill.sound.play();
 		return true;
 	}
 	else if (key_attack == 4)
@@ -369,11 +410,12 @@ bool AttackModeCrusader(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& 
 			enemy[0].battle_sprite = enemy[0].get_damage;
 		attack_cruasder.Attack4(all_heroes.cruasder, enemy[0]);
 		key_attack = 0;
+		sound_effect.knife.sound.play();
 		return true;
 	}
 	return false;
 }
-bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
+bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack)
 {
 	AttacksRogue attack_rouge;
 	if (key_attack == 1)
@@ -383,6 +425,7 @@ bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key
 			enemy[0].battle_sprite = enemy[0].get_damage;
 		key_attack = 0;
 		attack_rouge.Attack1(all_heroes.rogue, enemy[0]);
+		sound_effect.pistol.sound.play();
 		return true;
 	}
 	else if (key_attack == 2)
@@ -390,6 +433,7 @@ bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key
 		all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.attack2;
 		key_attack = 0;
 		attack_rouge.Attack2(all_heroes.rogue);
+		sound_effect.ranged_attack.sound.play();
 		return true;
 	}
 	else if (key_attack == 3)
@@ -403,6 +447,7 @@ bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key
 			enemy[2].battle_sprite = enemy[2].get_damage;
 		key_attack = 0;
 		attack_rouge.Attack3(enemy[0], enemy[1], enemy[2]);
+		sound_effect.pistol.sound.play();
 		return true;
 	}
 	else if (key_attack == 4)
@@ -412,11 +457,12 @@ bool AttackModeRogue(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key
 			enemy[1].battle_sprite = enemy[1].get_damage;
 		key_attack = 0;
 		attack_rouge.Attack4(all_heroes.rogue, enemy[1]);
+		sound_effect.knife.sound.play();
 		return true;
 	}
 	return false;
 }
-bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& key_attack)
+bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], StructSound& sound_effect, int& key_attack)
 {
 	AttacksWizard attack_wizard;
 	if (key_attack == 1)
@@ -426,6 +472,7 @@ bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& ke
 			enemy[2].battle_sprite = enemy[2].get_damage;
 		key_attack = 0;
 		attack_wizard.Attack1(enemy[2]);
+		sound_effect.ranged_attack.sound.play();
 		return true;
 	}
 	else if (key_attack == 2)
@@ -433,6 +480,7 @@ bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& ke
 		all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.attack2;
 		key_attack = 0;
 		attack_wizard.Attack2(all_heroes);
+		sound_effect.buff.sound.play();
 		return true;
 	}
 	else if (key_attack == 3)
@@ -440,6 +488,7 @@ bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& ke
 		all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.attack3;
 		key_attack = 0;
 		attack_wizard.Attack3(all_heroes);
+		sound_effect.buff.sound.play();
 		return true;
 	}
 	else if (key_attack == 4)
@@ -449,39 +498,50 @@ bool AttackModeWizard(StructAllHeroes& all_heroes, StructEnemy enemy[3], int& ke
 			enemy[1].battle_sprite = enemy[1].get_damage;
 		key_attack = 0;
 		attack_wizard.Attack4(enemy[1]);
+		sound_effect.knife.sound.play();
 		return true;
 	}
 	return false;
 }
-bool AttackModeMage(StructAllHeroes& all_heroes, int& key_attack)
+bool AttackModeMage(StructAllHeroes& all_heroes, StructSound& sound_effect, int& key_attack)
 {
 	AttacksMage attack_mage;
 	if (key_attack == 1)
 	{
 		all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.attack1;
+		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.stay;
 		key_attack = 0;
 		attack_mage.Attack1(all_heroes);
+		sound_effect.hill.sound.play();
 		return true;
 	}
 	else if (key_attack == 2)
 	{
 		all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.attack2;
+		all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.attack1;
 		key_attack = 0;
 		attack_mage.Attack2(all_heroes);
+		sound_effect.hill.sound.play();
 		return true;
 	}
 	else if (key_attack == 3)
 	{
 		all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.attack3;
+		all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.attack2;
 		key_attack = 0;
 		attack_mage.Attack3(all_heroes);
+		sound_effect.hill.sound.play();
 		return true;
 	}
 	else if (key_attack == 4)
 	{
 		all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.attack4;
+		all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.stay;
+		all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.attack1;
+		all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.attack2;
 		key_attack = 0;
 		attack_mage.Attack4(all_heroes);
+		sound_effect.hill.sound.play();
 		return true;
 	}
 	return false;
@@ -505,6 +565,7 @@ void DrawEnemy(StructEnemy enemy[3], RenderWindow& window)
 	for (int i = 0; i < 3; i++)
 	{
 		window.draw(enemy[i].stay);
+		window.draw(enemy[i].sq_max);
 		window.draw(enemy[i].sq);
 	}
 }

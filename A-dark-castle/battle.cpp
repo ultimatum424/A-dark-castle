@@ -1,6 +1,7 @@
 #include "battle.h"
 #include "heroes.h"
 #include "event.h"
+#include "Sound.h"
 
 #include <iostream>
 
@@ -22,9 +23,18 @@ void InitBattleImages(StructBattleImage& battle_image)
 void InitBattleParam(StructBattleParam& battle_param)
 {
 	InitBattleImages(battle_param.battle_image);
+	battle_param.font.loadFromFile("../Fonts/9210.ttf");
+	battle_param.text.setCharacterSize(25);
+	battle_param.text.setColor(Color::Red);
 	battle_param.jump_step = 0;
 	battle_param.clock_battle.restart();
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
+}
+void InitBoss(StructEnemy& enemy, StructLocalEnemy& localenemy)
+{
+	localenemy.enemy[0] = enemy;
+	localenemy.enemy[1].hp = 50;
+	localenemy.enemy[2].hp = 50;
 }
 void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre)
 {
@@ -58,15 +68,17 @@ void UpdeatBattle(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f vi
 
 	for (int i = 0; i < 3; i++)
 	{
-		//enemy[i].battle_sprite = enemy[i].stay;
 		enemy[i].battle_sprite = {};
 		enemy[i].stay.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
 		enemy[i].die.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
 		enemy[i].attack.setPosition(view_ñentre.x  + (200 * i), view_ñentre.y + 130);
 		enemy[i].battle_sprite.setPosition(view_ñentre.x + 100 + (200 * i), view_ñentre.y + 130);
-		enemy[i].sq.setSize(Vector2f(enemy[i].hp * 3, 10));
+		enemy[i].sq.setSize(Vector2f(float(enemy[i].hp * 3), 10));
 		enemy[i].sq.setFillColor(Color::Red);
-		enemy[i].sq.setPosition(view_ñentre.x + 200, view_ñentre.y + 200 + (i * 50));
+		enemy[i].sq.setPosition(view_ñentre.x + 350, view_ñentre.y + 200 + (i * 50));
+		enemy[i].sq_max.setSize(Vector2f(float(enemy[i].max_hp * 3), 10));
+		enemy[i].sq_max.setFillColor(Color::White);
+		enemy[i].sq_max.setPosition(view_ñentre.x + 350, view_ñentre.y + 200 + (i * 50));
 	}
 }
 void OutHpInfo(Structheroes& hero, Vector2f view_ñentre, int num, RenderWindow& window)
@@ -119,17 +131,17 @@ void DrawBattleImages(StructBattleParam battle_param, StructAllHeroes& all_heroe
 			window.draw(enemy[i].battle_sprite);
 	}
 }
-int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
+bool AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy, StructSound& sound_effect)
 {
 	bool victim_attatck = 0;
 	while (!victim_attatck)
 	{
 		int damage;
 		int heroes_victim = rand() % 4 + 1;
-		int amount_damage = rand() % 7 + 1;
+		int amount_damage = rand() % 15 + 1;
 		if (heroes_victim == 1)
 		{
-			damage = amount_damage / all_heroes.cruasder.stats.def;
+			damage = int(amount_damage / all_heroes.cruasder.stats.def);
 			if (all_heroes.cruasder.stats.hp)
 			{
 				victim_attatck = 1;
@@ -140,12 +152,13 @@ int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
 				all_heroes.cruasder.battle.batle_sprite = all_heroes.cruasder.battle.get_damage;
 				enemy.battle_sprite = enemy.attack;
 				enemy.battle_sprite.setPosition(all_heroes.cruasder.battle.stay.getPosition());
-				return 1;
+				sound_effect.enemy_attack.sound.play();
+				return true;
 			}
 		}
 		if (heroes_victim == 2)
 		{
-			damage = amount_damage / all_heroes.rogue.stats.def;
+			damage = int(amount_damage / all_heroes.rogue.stats.def);
 			if (all_heroes.rogue.stats.hp)
 			{
 				victim_attatck = 1;
@@ -156,12 +169,13 @@ int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
 				all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.get_damage;
 				enemy.battle_sprite = enemy.attack;
 				enemy.battle_sprite.setPosition(all_heroes.rogue.battle.stay.getPosition());
-				return 1;
+				sound_effect.enemy_attack.sound.play();
+				return true;
 			}
 		}
 		if (heroes_victim == 3)
 		{
-			damage = amount_damage / all_heroes.wizard.stats.def;
+			damage = int(amount_damage / all_heroes.wizard.stats.def);
 			if (all_heroes.wizard.stats.hp)
 			{
 				victim_attatck = 1;
@@ -172,12 +186,13 @@ int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
 				all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.get_damage;
 				enemy.battle_sprite = enemy.attack;
 				enemy.battle_sprite.setPosition(all_heroes.wizard.battle.stay.getPosition());
-				return 1;
+				sound_effect.enemy_attack.sound.play();
+				return true;
 			}
 		}
 		if (heroes_victim == 4)
 		{
-			damage = amount_damage / all_heroes.mage.stats.def;
+			damage = int(amount_damage / all_heroes.mage.stats.def);
 			if (all_heroes.mage.stats.hp)
 			{
 				victim_attatck = 1;
@@ -188,10 +203,12 @@ int AttackModeEnemy(StructAllHeroes& all_heroes, StructEnemy& enemy)
 				all_heroes.rogue.battle.batle_sprite = all_heroes.mage.battle.get_damage;
 				enemy.battle_sprite = enemy.attack;
 				enemy.battle_sprite.setPosition(all_heroes.mage.battle.stay.getPosition());
-				return 1;
+				sound_effect.enemy_attack.sound.play();
+				return true;
 			}
 		}
 	}
+	return 0;
 }
 int CheckDieHero(Structheroes& hero)
 {
@@ -200,6 +217,9 @@ int CheckDieHero(Structheroes& hero)
 		hero.battle.stay = hero.battle.die;
 		return 1;
 	}
+	else
+		hero.battle.stay.setTextureRect(IntRect(hero.battle.stay_texture.pos_x, hero.battle.stay_texture.pos_y, 
+			hero.battle.stay_texture.size_x, hero.battle.stay_texture.size_y));
 	return 0;
 }
 int CheckDieAllHero(StructAllHeroes& all_heroes)
@@ -222,48 +242,51 @@ int CheckDieEnemy(StructEnemy enemy[3])
 		return 1;
 	else return 0;
 }
-int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, StructEvent key_event, RenderWindow& window)
+int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñentre, StructBattleParam& battle_param, 
+	StructEvent key_event, StructSound& sound_effect, RenderWindow& window)
 {
-	bool flaq = false;
+	bool flaq = 0;
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
 	UpdeatBattleImages(battle_param.battle_image, view_ñentre);
 	UpdeatPercks(all_heroes, view_ñentre);
-	if (CheckDieAllHero(all_heroes))
-		return 3;
+	battle_param.text.setPosition(view_ñentre.x, view_ñentre.y);
 	if (key_event.key_escape)
 		return 2;
-	if (CheckDieEnemy(enemy))
-		return 1;
+	
 	if (battle_param.jump_step == 0)
 	{
 		//battle_param.clock_battle.restart();
+		sound_effect.next_battle.sound.play();
 		battle_param.jump_step = 1;
 	}
 	if (battle_param.battle_time > 2)
 	{
+		if (CheckDieAllHero(all_heroes))
+			return 3;
+		if (CheckDieEnemy(enemy))
+			return 1;
 		UpdeatBattle(all_heroes, enemy, view_ñentre);
-		std::cout << battle_param.jump_step << "\n";
 		
 		if ((battle_param.jump_step == 1) && (all_heroes.cruasder.stats.hp))
-			flaq = AttackModeCrusader(all_heroes, enemy, key_event.key_attack);
+			flaq = AttackModeCrusader(all_heroes, enemy, sound_effect, key_event.key_attack);
 		if ((battle_param.jump_step == 2) && (all_heroes.rogue.stats.hp))
-			flaq = AttackModeRogue(all_heroes, enemy, key_event.key_attack);
+			flaq = AttackModeRogue(all_heroes, enemy, sound_effect, key_event.key_attack);
 		if ((battle_param.jump_step == 3) && (all_heroes.wizard.stats.hp))
-			flaq = AttackModeWizard(all_heroes, enemy, key_event.key_attack);
+			flaq = AttackModeWizard(all_heroes, enemy, sound_effect, key_event.key_attack);
 		if ((battle_param.jump_step == 4) && (all_heroes.mage.stats.hp))
-			flaq = AttackModeMage(all_heroes, key_event.key_attack);
-		if (CheckDieAllHero(all_heroes))
-			return 3;
+			flaq = AttackModeMage(all_heroes, sound_effect, key_event.key_attack);
+		//if (CheckDieAllHero(all_heroes))
+			//return 3;
 		if ((battle_param.jump_step == 5) && (enemy[0].hp))
-			flaq = AttackModeEnemy(all_heroes, enemy[0]);
-		if (CheckDieAllHero(all_heroes))
-			return 3;
+			flaq = AttackModeEnemy(all_heroes, enemy[0], sound_effect);
+		//if (CheckDieAllHero(all_heroes))
+			//return 3;
 		if ((battle_param.jump_step == 6) && (enemy[1].hp))
-			flaq = AttackModeEnemy(all_heroes, enemy[1]);
-		if (CheckDieAllHero(all_heroes))
-			return 3;
+			flaq = AttackModeEnemy(all_heroes, enemy[1], sound_effect);
+		//if (CheckDieAllHero(all_heroes))
+			//return 3;
 		if ((battle_param.jump_step == 7) && (enemy[2].hp))
-			flaq = AttackModeEnemy(all_heroes, enemy[2]);
+			flaq = AttackModeEnemy(all_heroes, enemy[2], sound_effect);
 		if ((battle_param.jump_step == 1) && (all_heroes.cruasder.stats.hp == 0))
 			battle_param.jump_step++;
 		if ((battle_param.jump_step == 2) && (all_heroes.rogue.stats.hp == 0))
@@ -287,4 +310,5 @@ int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñ
 			battle_param.jump_step = 0;
 	}
 	DrawBattleImages(battle_param, all_heroes, enemy, view_ñentre, window);
+	return 0;
 }

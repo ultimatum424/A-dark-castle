@@ -65,6 +65,7 @@ void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][
 		{
 			tile_map[secret_x][secret_y] = 4;
 			temp_count_treasure--;
+			tile_map_enemy[secret_x][secret_y] = enemy;
 		}
 	}
 	for (int i = 0; i < MAP_SIZE; i++)
@@ -219,7 +220,7 @@ int MoveHero(StructMap& map, StructEvent key_event)
 	}
 	return 0;
 }
-void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inventory, int& stage_game)
+void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inventory, StructSound& sound_effect, int& stage_game)
 {
 	OpeningMap(map);
 	if (inventory.food.quantity)
@@ -236,7 +237,10 @@ void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inve
 		inventory.relics.quantity += 5;
 		inventory.food.quantity -= 2;
 		map.tile_map[map.hero_pos.x][map.hero_pos.y] = 0;
+		sound_effect.cheat.sound.play();
 	}
 	if (key_event.key_alt)
 		stage_game = 4;
+	if ((map.tile_map[map.hero_pos.x][map.hero_pos.y] == 4))
+		stage_game = 2;
 }

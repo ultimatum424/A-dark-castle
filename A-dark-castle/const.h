@@ -42,6 +42,7 @@ struct StructEndGame
 };
 struct StructGame
 {
+	StructSound sound_effect;
 	StructInfo info;
 	StructCampfire campfire;
 	StructEndGame end_game;
@@ -50,7 +51,7 @@ struct StructGame
 	StructMap map;
 	StructEvent key_event;
 	StructAllEnemy all_enemy;
-	StructLocalEnemy local_enemy[ENEMY_COUNT];
+	StructLocalEnemy local_enemy[ENEMY_COUNT+1];
 	StructAllHeroes all_heroes;
 	StructBattleParam battle_param;
 	StructTime time_animation;

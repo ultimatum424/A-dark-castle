@@ -11,7 +11,7 @@ void UpdateCampfire(StructCampfire& campfire, Vector2f view_ñentre)
 {
 	campfire.camp_image.sprite.setPosition(view_ñentre.x - 700, view_ñentre.y - 400);
 }
-void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, StructEvent key_event)
+void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, StructEvent key_event, StructSound& sound_effect)
 {
 	if ((key_event.key_attack == 1) && (inventory.food.quantity > 10))
 	{
@@ -20,6 +20,7 @@ void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, Struct
 		all_heroes.wizard.stats.hp = all_heroes.cruasder.stats.max_hp;
 		all_heroes.mage.stats.hp = all_heroes.cruasder.stats.max_hp;
 		inventory.food.quantity -= 10;
+		sound_effect.eat.sound.play();
 	}
 	if ((key_event.key_attack == 2) && (inventory.food.quantity > 5))
 	{
@@ -28,6 +29,7 @@ void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, Struct
 		all_heroes.wizard.stats.def += 0.5;
 		all_heroes.mage.stats.def += 0.5;
 		inventory.food.quantity -= 5;
+		sound_effect.eat_fire.sound.play();
 	}
 	if ((key_event.key_attack == 3) && (inventory.food.quantity > 10))
 	{
@@ -36,6 +38,7 @@ void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, Struct
 		all_heroes.wizard.stats.damage += 0.5;
 		all_heroes.mage.stats.damage += 0.5;
 		inventory.food.quantity -= 10;
+		sound_effect.eat_fire.sound.play();
 	}
 }
 void DrawCampfire(StructCampfire& campfire, StructInventory& inventory, RenderWindow& window)

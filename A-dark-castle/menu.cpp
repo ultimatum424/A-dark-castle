@@ -49,6 +49,7 @@ void InitMenu(StructMenu& menu)
 }
 void UpdateMenu(StructMenu& menu, StructEvent key_event, int& stage_game, Vector2f view_ñentre)
 {
+	//menu.flag.level = 0;
 	menu.background.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
 	menu.city.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
 	menu.castle.sprite.setPosition((view_ñentre.x - 700), (view_ñentre.y - 400));
@@ -71,10 +72,12 @@ void UpdateMenu(StructMenu& menu, StructEvent key_event, int& stage_game, Vector
 		menu.exit.setColor(Color::Red);
 	else
 		menu.exit.setColor(Color::White);
-	if ((menu.flag.menu_item == 2) && (key_event.key_space == 1))
+	if ((menu.flag.menu_item == 2) && (key_event.key_space))
 		stage_game = 1;
-	if ((menu.flag.menu_item == 1) && (key_event.key_space == 1))
+	if ((menu.flag.menu_item == 1) && (key_event.key_space))
 		menu.flag.level = 1;
+	if ((menu.flag.level == 1) && (key_event.key_escape))
+		menu.flag.level = 0;
 
 }
 

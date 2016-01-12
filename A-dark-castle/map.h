@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "event.h"
 #include "inventory.h"
+#include "Sound.h"
 using namespace sf;
 const int MAP_SIZE = 15;
 const int ENEMY_COUNT = 40;
@@ -49,4 +50,4 @@ void OpeningMap(StructMap& map);
 void DrawRoom(StructMap& map, Vector2f view_ñentre, RenderWindow& window);
 void DrawMap(StructMap& map, Vector2f view_ñentre, RenderWindow& window);
 int MoveHero(StructMap& map, StructEvent key_event);
-void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inventory, int& stage_game);
+void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inventory, StructSound& sound_effect, int& stage_game);

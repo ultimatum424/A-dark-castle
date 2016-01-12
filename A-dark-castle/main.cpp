@@ -28,6 +28,7 @@ void DrawGameOver(StructEndGame& end, RenderWindow& window, int stage_game)
 }
 void Init(StructGame& game)
 {
+	InitSoundEffects(game.sound_effect);
 	InitAllInfo(game.info);
 	InitCampfire(game.campfire);
 	InitGameOver(game.end_game);
@@ -44,6 +45,21 @@ void Init(StructGame& game)
 	InitSound(game.sound);
 	stage_game = 0;
 }
+void ReInitParam(StructGame& game)
+{
+	InitCampfire(game.campfire);
+	InitGameOver(game.end_game);
+	SetView(game.view);
+	InitMenu(game.menu);
+	InitBattleParam(game.battle_param);
+	InitHeroes(game.all_heroes);
+	InitAllEnemy(game.all_enemy);
+	InitLocalEnemy(game.all_enemy, game.local_enemy);
+	InitMap(game.map);
+	SetHerosAndEnemy(game.all_heroes, game.local_enemy, game.view.view_ñentre);
+	InitInventory(game.inventory);
+	InitShop(game.inventory);
+}
 
 void Run_Game(RenderWindow& window)
 {
@@ -52,18 +68,28 @@ void Run_Game(RenderWindow& window)
 	while (window.isOpen())
 	{
 		game.time_animation.clock.restart();
-		game.time_animation.time = game.time_animation.clock.getElapsedTime().asMicroseconds();
+		game.time_animation.time = float(game.time_animation.clock.getElapsedTime().asMicroseconds());
 		game.time_animation.time = game.time_animation.time / 1000;
 		window.clear(sf::Color::White);
 		CheckEvent(window, game.key_event, stage_game);
 		window.setView(game.view.camera);
 		ViewUpdate(game.view, game.time_animation.time, stage_game);
 		UpdateInfo(game.info, game.view.view_ñentre);
+		if (game.menu.flag.level == 1)
+		{
+			game.sound.main_menu.setVolume(5);
+			if (!game.sound.road_play)
+			{
+				game.sound.old_road.play();
+				game.sound.road_play = 1;
+			}
+		}
 		if (stage_game == -1)
 		{
 			if (UpeatGameOver(game.end_game, game.view.view_ñentre, game.key_event))
 				stage_game = 0;
 			DrawGameOver(game.end_game, window, stage_game);
+			ReInitParam(game);
 		}
 		if (stage_game == 0)
 		{
@@ -76,7 +102,7 @@ void Run_Game(RenderWindow& window)
 		if (stage_game == 1)
 		{
 			UpdeatInventory(game.inventory, game.view.view_ñentre);
-			ExplorationMod(game.map, game.key_event, game.inventory, stage_game);
+			ExplorationMod(game.map, game.key_event, game.inventory, game.sound_effect, stage_game);
 			DrawMap(game.map, game.view.view_ñentre, window);
 			DrawInventory(game.inventory, window);
 			if (game.inventory.food.quantity == 0)
@@ -84,8 +110,9 @@ void Run_Game(RenderWindow& window)
 		}
 		if (stage_game == 2)
 		{
-			int falq;
-			falq = BattleMod(game.all_heroes, game.local_enemy[game.map.tile_map_enemy[game.map.hero_pos.x][game.map.hero_pos.y]].enemy, game.view.view_ñentre, game.battle_param, game.key_event, window);
+			int falq = 0;
+			falq = BattleMod(game.all_heroes, game.local_enemy[game.map.tile_map_enemy[game.map.hero_pos.x][game.map.hero_pos.y]].enemy, 
+				game.view.view_ñentre, game.battle_param, game.key_event, game.sound_effect, window);
 			if (falq == 2)
 			{
 				stage_game = 1;
@@ -99,20 +126,19 @@ void Run_Game(RenderWindow& window)
 			{
 				stage_game = 1;
 				game.inventory.gold.quantity +=300;
-				game.inventory.food.quantity -= 2;
 				game.map.tile_map[game.map.hero_pos.x][game.map.hero_pos.y] = 0;
 			}
 		}		
 		if (stage_game == 3)
 		{
-			ShopMode(game.inventory, game.key_event, game.view.view_ñentre, stage_game);
+			ShopMode(game.inventory, game.key_event, game.view.view_ñentre, game.sound_effect, stage_game);
 			DrawShop(game.inventory, window);
 		}
 		if (stage_game == 4)
 		{
 			UpdateCampfire(game.campfire, game.view.view_ñentre);
 			UpdeatInventory(game.inventory, game.view.view_ñentre);
-			CampfireMod(game.all_heroes, game.inventory, game.key_event);
+			CampfireMod(game.all_heroes, game.inventory, game.key_event, game.sound_effect);
 			DrawCampfire(game.campfire, game.inventory, window);
 			if (game.key_event.key_escape)
 				stage_game = 1;

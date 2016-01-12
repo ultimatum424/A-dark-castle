@@ -3,6 +3,7 @@
 #include "event.h"
 #include "heroes.h"
 #include "inventory.h"
+#include "Sound.h"
 
 using namespace sf;
 
@@ -18,5 +19,5 @@ struct StructCampfire
 
 void InitCampfire(StructCampfire& campfire);
 void UpdateCampfire(StructCampfire& campfire, Vector2f view_ñentre);
-void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, StructEvent key_event);
+void CampfireMod(StructAllHeroes& all_heroes, StructInventory& inventory, StructEvent key_event, StructSound& sound_effect);
 void DrawCampfire(StructCampfire& campfire, StructInventory& inventory, RenderWindow& window);
