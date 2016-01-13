@@ -1,10 +1,9 @@
 #include "map.h"
-#include "event.h"
-#include "inventory.h"
+
 #include <ctime>
 #include <iostream>
 
-void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE])
+void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE], Vector2i& pos_treasure)
 {
 	srand(time(0));
 	for (int i = 0; i < MAP_SIZE; i++)
@@ -65,16 +64,9 @@ void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][
 		{
 			tile_map[secret_x][secret_y] = 4;
 			temp_count_treasure--;
+			pos_treasure = { secret_x , secret_y };
 			tile_map_enemy[secret_x][secret_y] = enemy;
 		}
-	}
-	for (int i = 0; i < MAP_SIZE; i++)
-	{
-		for (int j = 0; j < MAP_SIZE; j++)
-		{
-			std::cout << tile_map_enemy[i][j] << " ";
-		}
-		std::cout << "\n";
 	}
 	//ñîñòàâëÿåì êàðòû äëÿ èãðîêà
 }
@@ -114,7 +106,7 @@ void InitImageMap(StructMap& map)
 void InitMap(StructMap& map)
 {
 	map.hero_pos = { 0, 0 };
-	InitMapReal(map.tile_map, map.tile_map_enemy);
+	InitMapReal(map.tile_map, map.tile_map_enemy, map.pos_treasure);
 	InitMapVisible(map.tile_map_visible);
 	InitImageMap(map);
 }
@@ -138,7 +130,7 @@ void DrawMiniMap(StructMap& map, RenderWindow& window)
 				map.map.sprite.setTextureRect((IntRect((map.map.size_x * 5), 0, map.map.size_x, map.map.size_y)));
 			else if (map.tile_map_visible[i][j] == 5)
 				map.map.sprite.setTextureRect((IntRect((map.map.size_x * 6), 0, map.map.size_x, map.map.size_y)));
-			map.map.sprite.setPosition((i * map.map.size_x), (j * map.map.size_y));
+			map.map.sprite.setPosition(float(i * map.map.size_x), float(j * map.map.size_y));
 			window.draw(map.map.sprite);
 		}
 	}
@@ -156,7 +148,8 @@ void DrawRoom(StructMap& map, Vector2f view_ñentre, RenderWindow& window)
 		map.room.sprite.setTextureRect(IntRect((map.room.size_x * 3), 0, map.room.size_x, map.room.size_y));
 	if ((map.tile_map[map.hero_pos.x][map.hero_pos.y] == 4))
 		map.room.sprite.setTextureRect(IntRect((map.room.size_x * 6), 0, map.room.size_x, map.room.size_y));
-	map.room.sprite.setScale(0.7, 0.7);
+	Vector2f zoom = { float(0.7),  float(0.7) };
+	map.room.sprite.setScale(zoom);
 	map.room.sprite.setPosition(view_ñentre.x + 196, view_ñentre.y - 400);
 	window.draw(map.room.sprite);
 	map.ramka.sprite.setPosition(view_ñentre.x + 196, view_ñentre.y - 400);
@@ -227,7 +220,6 @@ void ExplorationMod(StructMap& map, StructEvent key_event, StructInventory& inve
 		inventory.food.quantity -= MoveHero(map, key_event);
 	if (key_event.key_escape)
 		stage_game = 0;
-	//if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
 	if ((map.tile_map[map.hero_pos.x][map.hero_pos.y] == 1))
 		stage_game = 2;
 	if ((key_event.key_space) && (map.tile_map[map.hero_pos.x][map.hero_pos.y] == 3))

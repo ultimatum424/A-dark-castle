@@ -15,6 +15,7 @@ struct StructImagesInfo
 struct StructInfo
 {
 	int page;
+	StructImagesInfo menu_info;
 	StructImagesInfo skill_crusader;
 	StructImagesInfo skill_rogure;
 	StructImagesInfo skill_wizard;

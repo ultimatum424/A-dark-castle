@@ -1,6 +1,5 @@
 #include "event.h"
-#include <SFML\Graphics.hpp>
-using namespace sf;
+
 
 void CheckEvent(RenderWindow& window, StructEvent& key_event, int stage_game)
 {

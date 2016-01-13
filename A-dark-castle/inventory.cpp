@@ -1,7 +1,6 @@
 #include "inventory.h"
 #include <iostream>
-#include "event.h"
-#include "Sound.h"
+
 
 void InitInventoryElement(StructInventory::StructCellInventory& element, Texture& texture, Font& font)
 {
@@ -19,7 +18,6 @@ void InitInventory(StructInventory& inventory)
 	InitInventoryElement(inventory.food, inventory.image.texture, inventory.font);
 	InitInventoryElement(inventory.gold, inventory.image.texture, inventory.font);
 	InitInventoryElement(inventory.relics, inventory.image.texture, inventory.font);
-	
 }
 void InitShop(StructInventory& inventory)
 {
@@ -33,7 +31,6 @@ void InitShop(StructInventory& inventory)
 	inventory.shop.food_gold.setString(L"Купить запасы еды");
 	inventory.shop.relics_gold.setString(L"Продать реликвии");
 }
-
 void UpdeatInventory(StructInventory& inventory, Vector2f view_сentre)
 {
 	inventory.food.sprite.setTextureRect(IntRect(0, 0, inventory.food.size.x, inventory.food.size.y));

@@ -17,6 +17,7 @@
 #include "Sound.h"
 #include "campfire.h"
 #include "info.h"
+#include "end.h"
 
 using namespace sf;
 const Vector2i SIZE_WINDOW = { 1400, 800 };
@@ -25,23 +26,9 @@ struct StructTime
 	Clock clock;
 	float time;
 };
-struct StructEndGame
-{
-	struct StructBad
-	{
-	Image image;
-	Texture texture;
-	Sprite sprite;
-	}bad;
-	struct StructGood
-	{
-		Image image;
-		Texture texture;
-		Sprite sprite;
-	}good;
-};
 struct StructGame
 {
+	int stage_game;
 	StructSound sound_effect;
 	StructInfo info;
 	StructCampfire campfire;

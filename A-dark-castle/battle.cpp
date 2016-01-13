@@ -1,7 +1,4 @@
 #include "battle.h"
-#include "heroes.h"
-#include "event.h"
-#include "Sound.h"
 
 #include <iostream>
 
@@ -10,15 +7,9 @@ void InitBattleImages(StructBattleImage& battle_image)
 	battle_image.background.image.loadFromFile("../images/battle/weald-back.png");
 	battle_image.background.texture.loadFromImage(battle_image.background.image);
 	battle_image.background.sprite.setTexture(battle_image.background.texture);
-	////////////////////////////////////////////////////////
-	//battle_image.image_battle.loadFromFile("../images/battle/background.png");
-	//battle_image.image_texture.loadFromImage(battle_image.image_battle);
-	//battle_image.blackout.setTexture(battle_image.image_texture);
 	battle_image.eclipse.image.loadFromFile("../images/battle/eclipse.png");
 	battle_image.eclipse.texture.loadFromImage(battle_image.eclipse.image);
 	battle_image.eclipse.sprite.setTexture(battle_image.eclipse.texture);
-	
-
 }
 void InitBattleParam(StructBattleParam& battle_param)
 {
@@ -29,12 +20,6 @@ void InitBattleParam(StructBattleParam& battle_param)
 	battle_param.jump_step = 0;
 	battle_param.clock_battle.restart();
 	battle_param.battle_time = battle_param.clock_battle.getElapsedTime().asSeconds();
-}
-void InitBoss(StructEnemy& enemy, StructLocalEnemy& localenemy)
-{
-	localenemy.enemy[0] = enemy;
-	localenemy.enemy[1].hp = 50;
-	localenemy.enemy[2].hp = 50;
 }
 void UpdeatBattleImages(StructBattleImage& battle_image, Vector2f view_ñentre)
 {
@@ -251,11 +236,9 @@ int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñ
 	UpdeatPercks(all_heroes, view_ñentre);
 	battle_param.text.setPosition(view_ñentre.x, view_ñentre.y);
 	if (key_event.key_escape)
-		return 2;
-	
+		return 2;	
 	if (battle_param.jump_step == 0)
 	{
-		//battle_param.clock_battle.restart();
 		sound_effect.next_battle.sound.play();
 		battle_param.jump_step = 1;
 	}
@@ -275,16 +258,10 @@ int BattleMod(StructAllHeroes& all_heroes, StructEnemy enemy[3], Vector2f view_ñ
 			flaq = AttackModeWizard(all_heroes, enemy, sound_effect, key_event.key_attack);
 		if ((battle_param.jump_step == 4) && (all_heroes.mage.stats.hp))
 			flaq = AttackModeMage(all_heroes, sound_effect, key_event.key_attack);
-		//if (CheckDieAllHero(all_heroes))
-			//return 3;
 		if ((battle_param.jump_step == 5) && (enemy[0].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[0], sound_effect);
-		//if (CheckDieAllHero(all_heroes))
-			//return 3;
 		if ((battle_param.jump_step == 6) && (enemy[1].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[1], sound_effect);
-		//if (CheckDieAllHero(all_heroes))
-			//return 3;
 		if ((battle_param.jump_step == 7) && (enemy[2].hp))
 			flaq = AttackModeEnemy(all_heroes, enemy[2], sound_effect);
 		if ((battle_param.jump_step == 1) && (all_heroes.cruasder.stats.hp == 0))

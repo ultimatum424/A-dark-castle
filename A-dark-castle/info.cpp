@@ -11,6 +11,7 @@ void InitInfo(StructImagesInfo& image_info, std::string file)
 void InitAllInfo(StructInfo& info)
 {
 	info.page = 0;
+	InitInfo(info.menu_info, "../images/info/menu.png");
 	InitInfo(info.skill_crusader, "../images/info/skill_crusader.png");
 	InitInfo(info.skill_rogure, "../images/info/skill_rogure.png");
 	InitInfo(info.skill_wizard, "../images/info/skill_wizard.png");
@@ -76,8 +77,14 @@ void CallInfo(StructInfo& info, int stage_game, int jump_stage, RenderWindow& wi
 {
 	if (Keyboard::isKeyPressed(Keyboard::Tab))
 	{
+		if (stage_game == 0)
+			window.draw(info.menu_info.sprite);
 		if (stage_game == 1)
 			window.draw(info.resources.sprite);
+		if (stage_game == 4)
+			window.draw(info.campfire.sprite);
+		if (stage_game == 3)
+			window.draw(info.shop.sprite);
 		if ((stage_game == 2) && (jump_stage == 1))
 			window.draw(info.skill_crusader.sprite);
 		if ((stage_game == 2) && (jump_stage == 2))

@@ -1,9 +1,7 @@
 #include <cstdlib>
 #include <ctime>
-#include "heroes.h"
-#include "map.h"
 #include <iostream>
-#include "Sound.h"
+#include "heroes.h"
 
 
 void InitHeroCrusader(Structheroes& hero, vector<string> file)
@@ -160,7 +158,6 @@ void InitHeroMage(Structheroes& hero, vector<string> file)
 	hero.stats.def = 1;
 	hero.stats.damage = 0.5;
 }
-
 void InitHeroes(StructAllHeroes& all_heroes)
 {
 	vector<string> files = { "../images/heroes/crusader/attack.png", "../images/heroes/crusader/perks.png" };
@@ -172,7 +169,6 @@ void InitHeroes(StructAllHeroes& all_heroes)
 	files = { "../images/heroes/mage/battle.png", "../images/heroes/mage/perks.png" };
 	InitHeroMage(all_heroes.mage, files);
 }
-
 void InitCollector(StructEnemy& enemy, string file)
 {
 	enemy.image.loadFromFile(file);
@@ -350,11 +346,6 @@ void SetHerosAndEnemy(StructAllHeroes& all_heroes, StructLocalEnemy local_enemy[
 		all_heroes.rogue.battle.batle_sprite = all_heroes.rogue.battle.stay;
 		all_heroes.wizard.battle.batle_sprite = all_heroes.wizard.battle.stay;
 		all_heroes.mage.battle.batle_sprite = all_heroes.mage.battle.stay;
-
-	//all_heroes.cruasder.battle.batle_sprite.setPosition(view_ñentre.x, view_ñentre.y + 130);
-	//all_heroes.rogue.battle.batle_sprite.setPosition(view_ñentre.x - 200, view_ñentre.y + 130);
-	//all_heroes.wizard.battle.batle_sprite.setPosition(view_ñentre.x - 400, view_ñentre.y + 130);
-	//all_heroes.mage.battle.batle_sprite.setPosition(view_ñentre.x - 600, view_ñentre.y + 130);
 	for (int i = 0; i <= ENEMY_COUNT; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -546,19 +537,12 @@ bool AttackModeMage(StructAllHeroes& all_heroes, StructSound& sound_effect, int&
 	}
 	return false;
 }
-
 void DrawHeroes(StructAllHeroes all_heroes, RenderWindow& window)
 {
 	window.draw(all_heroes.cruasder.battle.stay);
 	window.draw(all_heroes.rogue.battle.stay);
 	window.draw(all_heroes.wizard.battle.stay);
 	window.draw(all_heroes.mage.battle.stay);
-
-	//window.draw(all_heroes.cruasder.battle.batle_sprite);
-	//window.draw(all_heroes.rogue.battle.batle_sprite);
-	//window.draw(all_heroes.wizard.battle.batle_sprite);
-	//window.draw(all_heroes.mage.battle.batle_sprite);
-
 }
 void DrawEnemy(StructEnemy enemy[3], RenderWindow& window)
 {

@@ -39,10 +39,11 @@ struct StructMap
 	StructImageMap ramka;
 	Vector2i hero_pos;
 	Vector2i previous_hero_pos;
+	Vector2i pos_treasure;
 };
 
 void InitImageMap(StructMap& map);
-void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE]);
+void InitMapReal(int tile_map[MAP_SIZE][MAP_SIZE], int tile_map_enemy[MAP_SIZE][MAP_SIZE], Vector2i& pos_treasure);
 void InitMapVisible(int tile_map_visible[MAP_SIZE][MAP_SIZE]);
 void InitMap(StructMap& map);
 void DrawMiniMap(StructMap& map, RenderWindow& window);
